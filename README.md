@@ -1,4 +1,20 @@
-# Info-H413 Heuristic optimisation
+### Heuristic Optimization assignment.
 
-Contains the two projects asked for this course
+Adapted by Jérémie Dubois-Lacoste from the ILSLOP implementation
+of Tommaso Schiavinotto.
 
+
+
+### To compile/clean:
+make
+make clean
+
+
+
+### To run on one instance:
+./lop -i instances/N-tiw56r72_250
+
+
+
+### Best known solutions:
+The best known solutions are in best_known/best_known.txt
