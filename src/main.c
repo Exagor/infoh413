@@ -29,6 +29,9 @@
 #include "timer.h"
 #include "optimization.h"
 
+#define ITERATIONS 2000
+
+
 char *FileName;
 
 void readOpts(int argc, char **argv) {
@@ -51,7 +54,42 @@ void readOpts(int argc, char **argv) {
   }
 }
 
+void first_improvement(long int * sol,long int * newsol ,int cost){
+  // Return the solution with a better cost
+  int newCost;
+  //Generate all neighbour and evaluate the transpose
+  for (int j = 0; j < PSize; j++){ //First element to transpose
+    for (int k = j-1; k<=j+1; k++){ //Second element to transpose
+      if (k > 0 && j != k && k < PSize){
+        transpose(newsol, j, k);
+        //Compute the cost of the neighbour
+        newCost = computeCost(newsol);
+        if (newCost > cost){//If the first neighbour found is better, stop
+          //Copy the new solution
+          for (int i = 0; i < PSize; i++){
+            sol[i] = newsol[i];
+          }
+          return;
+        }
+      }
+    }
+  }
+  return;
+}
 
+
+long int* best_improvement(long int * sol){
+  //Enumerates all neighbours and chooses the best one
+
+
+}
+
+void print_solution(long int *s){
+  int j;
+  for (j=0; j < PSize; j++) 
+    printf(" %ld", s[j]);
+  printf("\n");
+}
 
 int main (int argc, char **argv) 
 {
@@ -96,15 +134,13 @@ int main (int argc, char **argv)
 
   /* Print solution */
   printf("Initial solution:\n");
-  for (j=0; j < PSize; j++) 
-    printf(" %ld", currentSolution[j]);
-  printf("\n");
+  print_solution(currentSolution);
 
   /* Compute cost of solution and print it */
   cost = computeCost(currentSolution);
   printf("Cost of this initial solution: %d\n\n", cost);
 
-  /* Example: apply an exchange operation of two elements at random position */
+  /* Example: apply an exchange operation of two elements at random position
   firstRandomPosition = randInt(0,PSize-1);
   // Ensure second position is different from first one:
   secondRandomPosition = firstRandomPosition + randInt(1,(PSize-2));
@@ -117,15 +153,32 @@ int main (int argc, char **argv)
   currentSolution[firstRandomPosition] = currentSolution[secondRandomPosition];
   currentSolution[secondRandomPosition] = temp;
 
+  // Print again the solution after the exchange
   printf("Solution after exchange:\n");
-  for (j=0; j < PSize; j++) 
-    printf(" %ld", currentSolution[j]);
-  printf("\n");
+  print_solution(currentSolution);
+  */
+  //Copy the solution
+  long int *newSol = (long int *)malloc(PSize * sizeof(long int));
+  for (int i = 0; i < PSize; i++){
+    newSol[i] = currentSolution[i];
+  }
+  for (int i=0;i<ITERATIONS;i++){ //Loop the number of iterations
+    printf("Iteration %d\n", i);
+    
+    // Use of first improvement algorithm
+    newCost = computeCost(newSol);
+    first_improvement(currentSolution, newSol, newCost);
+    
+    // Use of best improvement algorithm
+    //currentSolution = best_improvement(currentSolution, ITERATIONS);
 
-  /* Recompute cost of solution after the exchange move */
+  }
+ 
+
+  /* Recompute cost of solution */
   /* There are some more efficient way to do this, instead of recomputing everything... */
   newCost = computeCost(currentSolution);
-  printf("Cost of this solution after applying the exchange move: %d\n", newCost);
+  printf("Cost of the solution after applying the algo: %d\n", newCost);
 
   if (newCost == cost)
     printf("Second solution is as good as first one\n");
@@ -136,6 +189,9 @@ int main (int argc, char **argv)
 
   printf("Time elapsed since we started the timer: %g\n\n", elapsed_time(VIRTUAL));
 
+  /* Free memory */
+  free(currentSolution);
+  free(newSol);
 
   return 0;
 }

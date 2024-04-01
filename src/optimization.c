@@ -49,8 +49,12 @@ long long int computeCost (long int *s ) {
     return(sum);
 }
 
+long long int computeCostFast(){
+    // Use of properties to make it faster
+}
 
 void createRandomSolution(long int *s) {
+    // The solution is a vector of permutation of the indexes of the problem
     int j; 
     long int *random;
 
@@ -59,5 +63,23 @@ void createRandomSolution(long int *s) {
       s[j] = random[j];
     }
     free ( random );
+}
+
+void createCWSolution(long int *s){
+
+}
+
+void transpose(long int* vector, int i, int j){
+    //Function to transpose the elements i and j of the vector
+    vector[i]=vector[j];
+    vector[j]=vector[i];
+}
+
+void exchange(long int* vector, int i, int j){
+
+}
+
+void insert(long int* vector, int i, int j){
+
 }
 

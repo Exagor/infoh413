@@ -10,5 +10,8 @@ all: lop
 lop: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o lop
 
+test: lop
+	./lop -i instances/N-be75eec_250
+
 clean:
 	rm -f src/*~ src/*.o lop
