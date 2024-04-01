@@ -29,7 +29,7 @@
 #include "timer.h"
 #include "optimization.h"
 
-#define ITERATIONS 2000
+#define ITERATIONS 1000
 
 
 char *FileName;
@@ -61,11 +61,11 @@ void first_improvement(long int * sol,long int * newsol ,int cost){
   for (int j = 0; j < PSize; j++){ //First element to transpose
     for (int k = j-1; k<=j+1; k++){ //Second element to transpose
       if (k > 0 && j != k && k < PSize){
-        transpose(newsol, j, k);
+        exchange(newsol, j, k); //Since transpose is an exchange
         //Compute the cost of the neighbour
         newCost = computeCost(newsol);
         if (newCost > cost){//If the first neighbour found is better, stop
-          //Copy the new solution
+          //Copy the new solution in the current solution
           for (int i = 0; i < PSize; i++){
             sol[i] = newsol[i];
           }

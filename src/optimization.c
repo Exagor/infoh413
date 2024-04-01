@@ -69,17 +69,20 @@ void createCWSolution(long int *s){
 
 }
 
-void transpose(long int* vector, int i, int j){
-    //Function to transpose the elements i and j of the vector
-    vector[i]=vector[j];
-    vector[j]=vector[i];
-}
-
 void exchange(long int* vector, int i, int j){
-
+    //Function to exchange the elements i and j of the vector
+    //No transpose function as transpose is just exchange with i=j+1
+    long int temp = vector[i];
+    vector[i]=vector[j];
+    vector[j]=temp;
 }
 
 void insert(long int* vector, int i, int j){
-
+    //Function to insert the element i in the position j of the vector
+    long int temp = vector[i];
+    for (int k = i; k > j; k--){
+        vector[k] = vector[k-1];
+    }
+    vector[j] = temp;
 }
 
