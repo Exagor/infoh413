@@ -29,12 +29,13 @@
 #include "timer.h"
 #include "optimization.h"
 
-#define ITERATIONS 500
+#define MAXITERATIONS 2000
 
 char *FileName = NULL;
 int improvFlag = 0; // 0 for first, 1 for best
 int permutFlag = 0; // 0 for exchange, 1 for transpose, 2 for insert
 int initFlag = 0; // 0 for random, 1 for CW
+int nbIterations = 0;
 
 void readOpts(int argc, char **argv) {
   /* Function that reads the options from the command line */
@@ -154,18 +155,24 @@ int main (int argc, char **argv)
     newSol[i] = currentSolution[i];
   }
 
-  for (int i = 1; i <= ITERATIONS; i++){ //Loop the number of iterations
+  for (int i = 1; i <= MAXITERATIONS; i++){ //Loop the number of iterations
     printf("Iteration %d\n", i);
+    nbIterations++;
 
     newCost = computeCost(newSol);
+
     // Use of first improvement algorithm
     if (improvFlag == 0)
-      firstImprovement(currentSolution, newSol, newCost, permutFlag);
-    else
-      bestImprovement(currentSolution, newSol);
+      if(!firstImprovement(currentSolution, newSol, newCost, permutFlag)){
+        break;
+      }
+    else if (improvFlag == 1){
+      if(!bestImprovement(currentSolution, newSol)){
+        break;
+      }
+    }
     
   }
- 
 
   /* Recompute cost of solution */
   /* There are some more efficient way to do this, instead of recomputing everything... */
@@ -179,6 +186,7 @@ int main (int argc, char **argv)
   else
     printf("Second solution is worse than first one\n");
 
+  printf("Number of iterations to obtain (local) maxima : %d\n", nbIterations);
   printf("Time elapsed since we started the timer: %g\n\n", elapsed_time(VIRTUAL));
 
   /* Free memory */
