@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <values.h>
+#include <string.h>
 
 #include "optimization.h" 
 #include "instance.h"
@@ -51,6 +52,7 @@ long long int computeCost (long int *s ) {
 
 long long int computeCostFast(long int *s, int i, int j){
     // Use of properties to make it faster
+    //Idea : take the two elements that are moved and compute the difference in cost of the two 
 }
 
 void createRandomSolution(long int *s) {
@@ -77,15 +79,20 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
     for (int j = 0; j < PSize; j++){ //First element to transpose
       for (int k = j-1; k <= j+1; k++){ //Second element to transpose
         if (k > 0 && j != k && k < PSize){
+          // memcpy(newsol, sol, PSize * sizeof(long int));
+          for (int l = 0; l < PSize; l++){
+            newsol[l] = sol[l];
+          }
           exchange(newsol, j, k); //Since transpose is an exchange
           //Compute the cost of the neighbour
           newCost = computeCost(newsol);
           if (newCost > cost){//If the first neighbour found is better, stop
             //Copy the new solution in the current solution
-            for (int i = 0; i < PSize; i++){
-              sol[i] = newsol[i];
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
             }
-            return 1;
+            return newCost;
           }
         }
       }
@@ -96,62 +103,127 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
     for (int j = 0; j < PSize; j++){ //First element to exchange
       for (int k = 0; k < PSize; k++){ //Second element to exchange
         if (j != k){
+          // memcpy(newsol, sol, PSize * sizeof(long int));
+          for (int l = 0; l < PSize; l++){
+            newsol[l] = sol[l];
+          }
           exchange(newsol, j, k);
           //Compute the cost of the neighbour
           newCost = computeCost(newsol);
           if (newCost > cost){
-            for (int i = 0; i < PSize; i++){
-              sol[i] = newsol[i];
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
             }
-            return 1;
+            return newCost;
           }
         }
       }
     }
   }
   else if (permutFlag==2){// Case insert
-     //Generate all neigbours and evaluate the exchange
+     //Generate all neigbours and evaluate the insert
     for (int j = 0; j < PSize; j++){ //First element to insert
       for (int k = 0; k < PSize; k++){ //Second element where to insert
         if (j != k){
+          // memcpy(newsol, sol, PSize * sizeof(long int));
+          for (int l = 0; l < PSize; l++){
+            newsol[l] = sol[l];
+          }
           insert(newsol, j, k);
           //Compute the cost of the neighbour
           newCost = computeCost(newsol);
           if (newCost > cost){
-            for (int i = 0; i < PSize; i++){
-              sol[i] = newsol[i];
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
             }
-            return 1;
+            return newCost;
           }
         }
       }
     }
   }
   
-  return 0;
+  return cost;
 }
 
 
-long int* bestImprovement(long int * sol, long int * newsol){
+int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag){
   //Enumerates all neighbours and chooses the best one
-
-
-}
-
-void exchange(long int* vector, int i, int j){
-    /*Function to exchange the elements i and j of the vector
-    No transpose function as transpose is just exchange with i=j+1*/
-    long int temp = vector[i];
-    vector[i]=vector[j];
-    vector[j]=temp;
-}
-
-void insert(long int* vector, int i, int j){
-    /*Function to insert the element i in the position j of the vector*/
-    long int temp = vector[i];
-    for (int k = i; k > j; k--){
-        vector[k] = vector[k-1];
+  int newCost, bestCost;
+  bestCost = cost;
+  if (permutFlag == 1){
+    //Generate all neighbour and evaluate the transpose
+    for (int j = 0; j < PSize; j++){ //First element to transpose
+      for (int k = j-1; k <= j+1; k++){ //Second element to transpose
+        if (k > 0 && j != k && k < PSize){
+          // memcpy(newsol, sol, PSize * sizeof(long int));
+          for (int l = 0; l < PSize; l++){
+            newsol[l] = sol[l];
+          }
+          exchange(newsol, j, k); //Since transpose is an exchange
+          //Compute the cost of the neighbour
+          newCost = computeCost(newsol);
+          if (newCost > bestCost){//If the neighbour is better, actualize the best cost
+            //Copy the new solution in the current solution
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
+            }
+            bestCost = newCost;
+          }
+        }
+      }
     }
-    vector[j] = temp;
+  }
+  else if(permutFlag == 0){// Case exchange
+    //Generate all neigbours and evaluate the exchange
+    for (int j = 0; j < PSize; j++){ //First element to exchange
+      for (int k = 0; k < PSize; k++){ //Second element to exchange
+        if (j != k){
+          // memcpy(newsol, sol, PSize * sizeof(long int));
+          for (int l = 0; l < PSize; l++){
+            newsol[l] = sol[l];
+          }
+          exchange(newsol, j, k);
+          //Compute the cost of the neighbour
+          newCost = computeCost(newsol);
+          if (newCost > bestCost){
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
+            }
+            bestCost = newCost;
+          }
+        }
+      }
+    }
+  }
+  else if (permutFlag==2){// Case insert
+     //Generate all neigbours and evaluate the insert
+    for (int j = 0; j < PSize; j++){ //First element to insert
+      for (int k = 0; k < PSize; k++){ //Second element where to insert
+        if (j != k){
+          // memcpy(newsol, sol, PSize * sizeof(long int));
+          for (int l = 0; l < PSize; l++){
+            newsol[l] = sol[l];
+          }
+          insert(newsol, j, k);
+          //Compute the cost of the neighbour
+          newCost = computeCost(newsol);
+          if (newCost > bestCost){
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
+            }
+            bestCost = newCost;
+          }
+        }
+      }
+    }
+  }
+  return bestCost;
 }
+
 

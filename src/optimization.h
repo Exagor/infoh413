@@ -28,8 +28,7 @@ long long int computeCostFast ( long int *s, int i, int j );
 void createRandomSolution(long int *s);
 void createCWSolution(long int *s);
 int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag);
-long int* bestImprovement(long int * sol, long int * newsol);
-void exchange(long int* vector, int i, int j);
-void insert(long int* vector, int i, int j);
+int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag);
+
 
 #endif

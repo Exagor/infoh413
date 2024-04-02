@@ -37,6 +37,9 @@ extern int randInt(int minimum, int maximum);
 
 extern long int * generate_random_vector(long int dim );
 
+void exchange(long int* vector, int i, int j);
+void insert(long int* vector, int i, int j);
+
 
 /* constants for a pseudo-random number generator, taken from
    Numerical Recipes in C book --- never trust the standard C random

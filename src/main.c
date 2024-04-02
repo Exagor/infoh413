@@ -29,7 +29,7 @@
 #include "timer.h"
 #include "optimization.h"
 
-#define MAXITERATIONS 2000
+#define MAXITERATIONS 10000
 
 char *FileName = NULL;
 int improvFlag = 0; // 0 for first, 1 for best
@@ -154,29 +154,32 @@ int main (int argc, char **argv)
   for (int i = 0; i < PSize; i++){
     newSol[i] = currentSolution[i];
   }
-
+  newCost = cost;
+  int prevCost = cost;
   for (int i = 1; i <= MAXITERATIONS; i++){ //Loop the number of iterations
-    printf("Iteration %d\n", i);
+    // if (i % 100 == 0)
+      printf("Iteration %d\n", i);
     nbIterations++;
 
-    newCost = computeCost(newSol);
-
     // Use of first improvement algorithm
-    if (improvFlag == 0)
-      if(!firstImprovement(currentSolution, newSol, newCost, permutFlag)){
-        break;
-      }
-    else if (improvFlag == 1){
-      if(!bestImprovement(currentSolution, newSol)){
+    if (improvFlag == 0){
+      newCost = firstImprovement(currentSolution, newSol, newCost, permutFlag);
+      if (newCost == prevCost){ //Stop condition
         break;
       }
     }
-    
+    else if (improvFlag == 1){
+      newCost = bestImprovement(currentSolution, newSol, newCost, permutFlag);
+      if (newCost == prevCost){
+        break;
+      }
+    }
+
+    prevCost = newCost; //Actualize the previous cost
   }
 
   /* Recompute cost of solution */
   /* There are some more efficient way to do this, instead of recomputing everything... */
-  newCost = computeCost(currentSolution);
   printf("Cost of the solution after applying the algo: %d\n", newCost);
 
   if (newCost == cost)
@@ -186,7 +189,10 @@ int main (int argc, char **argv)
   else
     printf("Second solution is worse than first one\n");
 
-  printf("Number of iterations to obtain (local) maxima : %d\n", nbIterations);
+  if (nbIterations == MAXITERATIONS)
+    printf("Maximum number of iterations reached (%d)\n",MAXITERATIONS);
+  else
+    printf("Number of iterations to obtain (local) maxima : %d\n", nbIterations);
   printf("Time elapsed since we started the timer: %g\n\n", elapsed_time(VIRTUAL));
 
   /* Free memory */
