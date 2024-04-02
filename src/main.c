@@ -29,7 +29,7 @@
 #include "timer.h"
 #include "optimization.h"
 
-#define ITERATIONS 1000
+#define ITERATIONS 500
 
 char *FileName = NULL;
 int improvFlag = 0; // 0 for first, 1 for best
@@ -38,7 +38,7 @@ int initFlag = 0; // 0 for random, 1 for CW
 
 void readOpts(int argc, char **argv) {
   /* Function that reads the options from the command line */
-  for (int i = 0; i < argc; i++) {
+  for (int i = 1; i < argc; i++) {
     if (strcmp(argv[i], "-i") == 0) {
       FileName = argv[i+1];
       i++; // Skip the next argument
@@ -155,7 +155,7 @@ int main (int argc, char **argv)
   }
 
   for (int i = 1; i <= ITERATIONS; i++){ //Loop the number of iterations
-    //printf("Iteration %d\n", i);
+    printf("Iteration %d\n", i);
 
     newCost = computeCost(newSol);
     // Use of first improvement algorithm

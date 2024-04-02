@@ -72,7 +72,7 @@ void createCWSolution(long int *s){
 void firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag){
   /*Return the solution with a better cost*/
   int newCost;
-  if (permutFlag){
+  if (permutFlag == 1){
     //Generate all neighbour and evaluate the transpose
     for (int j = 0; j < PSize; j++){ //First element to transpose
       for (int k = j-1; k<=j+1; k++){ //Second element to transpose
@@ -91,7 +91,7 @@ void firstImprovement(long int * sol, long int * newsol, int cost, int permutFla
       }
     }
   }
-  else if(!permutFlag){// Case exchange
+  else if(permutFlag == 0){// Case exchange
     //Generate all neigbours and evaluate the exchange
     for (int j = 0; j < PSize; j++){ //First element to exchange
       for (int k = 0; k < PSize; k++){ //Second element to exchange
@@ -109,8 +109,23 @@ void firstImprovement(long int * sol, long int * newsol, int cost, int permutFla
       }
     }
   }
-  else{// Case insert
-    printf("lol\n");
+  else if (permutFlag==2){// Case insert
+     //Generate all neigbours and evaluate the exchange
+    for (int j = 0; j < PSize; j++){ //First element to insert
+      for (int k = 0; k < PSize; k++){ //Second element where to insert
+        if (j != k){
+          insert(newsol, j, k);
+          //Compute the cost of the neighbour
+          newCost = computeCost(newsol);
+          if (newCost > cost){
+            for (int i = 0; i < PSize; i++){
+              sol[i] = newsol[i];
+            }
+            return;
+          }
+        }
+      }
+    }
   }
   
   return;
