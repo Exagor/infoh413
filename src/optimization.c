@@ -69,26 +69,50 @@ void createCWSolution(long int *s){
 
 }
 
-void firstImprovement(long int * sol, long int * newsol, int cost){
+void firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag){
   /*Return the solution with a better cost*/
   int newCost;
-  //Generate all neighbour and evaluate the transpose
-  for (int j = 0; j < PSize; j++){ //First element to transpose
-    for (int k = j-1; k<=j+1; k++){ //Second element to transpose
-      if (k > 0 && j != k && k < PSize){
-        exchange(newsol, j, k); //Since transpose is an exchange
-        //Compute the cost of the neighbour
-        newCost = computeCost(newsol);
-        if (newCost > cost){//If the first neighbour found is better, stop
-          //Copy the new solution in the current solution
-          for (int i = 0; i < PSize; i++){
-            sol[i] = newsol[i];
+  if (permutFlag){
+    //Generate all neighbour and evaluate the transpose
+    for (int j = 0; j < PSize; j++){ //First element to transpose
+      for (int k = j-1; k<=j+1; k++){ //Second element to transpose
+        if (k > 0 && j != k && k < PSize){
+          exchange(newsol, j, k); //Since transpose is an exchange
+          //Compute the cost of the neighbour
+          newCost = computeCost(newsol);
+          if (newCost > cost){//If the first neighbour found is better, stop
+            //Copy the new solution in the current solution
+            for (int i = 0; i < PSize; i++){
+              sol[i] = newsol[i];
+            }
+            return;
           }
-          return;
         }
       }
     }
   }
+  else if(!permutFlag){// Case exchange
+    //Generate all neigbours and evaluate the exchange
+    for (int j = 0; j < PSize; j++){ //First element to exchange
+      for (int k = 0; k < PSize; k++){ //Second element to exchange
+        if (j != k){
+          exchange(newsol, j, k);
+          //Compute the cost of the neighbour
+          newCost = computeCost(newsol);
+          if (newCost > cost){
+            for (int i = 0; i < PSize; i++){
+              sol[i] = newsol[i];
+            }
+            return;
+          }
+        }
+      }
+    }
+  }
+  else{// Case insert
+    printf("lol\n");
+  }
+  
   return;
 }
 

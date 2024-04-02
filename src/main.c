@@ -44,25 +44,25 @@ void readOpts(int argc, char **argv) {
       i++; // Skip the next argument
     } else if (strcmp(argv[i], "--best") == 0) {
       improvFlag = 1;
-      printf("Best selected\n");
+      printf("Iterative improvement : Best selected\n");
     } else if (strcmp(argv[i], "--first") == 0) {
       improvFlag = 0;
-      printf("first selected\n");
+      printf("Iterative improvement : First selected\n");
     } else if (strcmp(argv[i], "--exchange") == 0) {
       permutFlag = 0;
-      printf("Exchange selected\n");
+      printf("Permutation mode : Exchange selected\n");
     } else if (strcmp(argv[i], "--transpose") == 0) {
       permutFlag = 1;
-      printf("Transpose selected\n");
+      printf("Permutation mode : Transpose selected\n");
     } else if (strcmp(argv[i], "--insert") == 0) {
       permutFlag = 2;
-      printf("Insert selected\n");
+      printf("Permutation mode : Insert selected\n");
     } else if (strcmp(argv[i], "--random") == 0) {
       initFlag = 0;
-      printf("Random selected\n");
+      printf("Initial solution : Random selected\n");
     } else if (strcmp(argv[i], "--cw") == 0) {
       initFlag = 1;
-      printf("CW selected\n");
+      printf("Initial solution : CW selected\n");
     } else {
       fprintf(stderr, "Option %s not managed.\n", argv[i]);
     }
@@ -160,7 +160,7 @@ int main (int argc, char **argv)
     newCost = computeCost(newSol);
     // Use of first improvement algorithm
     if (improvFlag == 0)
-      firstImprovement(currentSolution, newSol, newCost);
+      firstImprovement(currentSolution, newSol, newCost, permutFlag);
     else
       bestImprovement(currentSolution, newSol);
     
