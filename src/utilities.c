@@ -121,3 +121,8 @@ void insert(long int* vector, int i, int j){
   }
   vector[j] = temp;
 }
+
+void statsToFile(){
+  /*Function that sends stats to a file */
+
+}

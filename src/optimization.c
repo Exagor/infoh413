@@ -68,7 +68,7 @@ void createRandomSolution(long int *s) {
 }
 
 void createCWSolution(long int *s){
-
+  
 }
 
 int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag){

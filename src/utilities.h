@@ -39,6 +39,7 @@ extern long int * generate_random_vector(long int dim );
 
 void exchange(long int* vector, int i, int j);
 void insert(long int* vector, int i, int j);
+void statsToFile();
 
 
 /* constants for a pseudo-random number generator, taken from
