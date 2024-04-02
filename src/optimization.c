@@ -49,7 +49,7 @@ long long int computeCost (long int *s ) {
     return(sum);
 }
 
-long long int computeCostFast(){
+long long int computeCostFast(long int *s, int i, int j){
     // Use of properties to make it faster
 }
 
@@ -69,16 +69,46 @@ void createCWSolution(long int *s){
 
 }
 
+void firstImprovement(long int * sol, long int * newsol, int cost){
+  /*Return the solution with a better cost*/
+  int newCost;
+  //Generate all neighbour and evaluate the transpose
+  for (int j = 0; j < PSize; j++){ //First element to transpose
+    for (int k = j-1; k<=j+1; k++){ //Second element to transpose
+      if (k > 0 && j != k && k < PSize){
+        exchange(newsol, j, k); //Since transpose is an exchange
+        //Compute the cost of the neighbour
+        newCost = computeCost(newsol);
+        if (newCost > cost){//If the first neighbour found is better, stop
+          //Copy the new solution in the current solution
+          for (int i = 0; i < PSize; i++){
+            sol[i] = newsol[i];
+          }
+          return;
+        }
+      }
+    }
+  }
+  return;
+}
+
+
+long int* bestImprovement(long int * sol, long int * newsol){
+  //Enumerates all neighbours and chooses the best one
+
+
+}
+
 void exchange(long int* vector, int i, int j){
-    //Function to exchange the elements i and j of the vector
-    //No transpose function as transpose is just exchange with i=j+1
+    /*Function to exchange the elements i and j of the vector
+    No transpose function as transpose is just exchange with i=j+1*/
     long int temp = vector[i];
     vector[i]=vector[j];
     vector[j]=temp;
 }
 
 void insert(long int* vector, int i, int j){
-    //Function to insert the element i in the position j of the vector
+    /*Function to insert the element i in the position j of the vector*/
     long int temp = vector[i];
     for (int k = i; k > j; k--){
         vector[k] = vector[k-1];

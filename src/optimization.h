@@ -23,9 +23,12 @@
 
 extern long int **CostMat;
 
-long long int computeCost ( long int *lo );
+long long int computeCost ( long int *s );
+long long int computeCostFast ( long int *s, int i, int j );
 void createRandomSolution(long int *s);
 void createCWSolution(long int *s);
+void firstImprovement(long int * sol, long int * newsol, int cost);
+long int* bestImprovement(long int * sol, long int * newsol);
 void exchange(long int* vector, int i, int j);
 void insert(long int* vector, int i, int j);
 

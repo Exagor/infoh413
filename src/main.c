@@ -31,60 +31,50 @@
 
 #define ITERATIONS 1000
 
-
-char *FileName;
+char *FileName = NULL;
+int improvFlag = 0; // 0 for first, 1 for best
+int permutFlag = 0; // 0 for exchange, 1 for transpose, 2 for insert
+int initFlag = 0; // 0 for random, 1 for CW
 
 void readOpts(int argc, char **argv) {
-  char opt;
-
-  FileName = NULL;
-  while ( (opt = getopt(argc, argv, "i:")) > 0 )  
-      switch (opt) {
-	  case 'i': /* Instance file */
-	      FileName = (char *)malloc(strlen(optarg)+1);
-	      strncpy(FileName, optarg, strlen(optarg));
-	      break;
-	  default:
-	      fprintf(stderr, "Option %c not managed.\n", opt);
-      }
-    
+  /* Function that reads the options from the command line */
+  for (int i = 0; i < argc; i++) {
+    if (strcmp(argv[i], "-i") == 0) {
+      FileName = argv[i+1];
+      i++; // Skip the next argument
+    } else if (strcmp(argv[i], "--best") == 0) {
+      improvFlag = 1;
+      printf("Best selected\n");
+    } else if (strcmp(argv[i], "--first") == 0) {
+      improvFlag = 0;
+      printf("first selected\n");
+    } else if (strcmp(argv[i], "--exchange") == 0) {
+      permutFlag = 0;
+      printf("Exchange selected\n");
+    } else if (strcmp(argv[i], "--transpose") == 0) {
+      permutFlag = 1;
+      printf("Transpose selected\n");
+    } else if (strcmp(argv[i], "--insert") == 0) {
+      permutFlag = 2;
+      printf("Insert selected\n");
+    } else if (strcmp(argv[i], "--random") == 0) {
+      initFlag = 0;
+      printf("Random selected\n");
+    } else if (strcmp(argv[i], "--cw") == 0) {
+      initFlag = 1;
+      printf("CW selected\n");
+    } else {
+      fprintf(stderr, "Option %s not managed.\n", argv[i]);
+    }
+  }
   if ( !FileName ) {
     printf("No instance file provided (use -i <instance_name>). Exiting.\n");
     exit(1);
   }
 }
 
-void first_improvement(long int * sol,long int * newsol ,int cost){
-  // Return the solution with a better cost
-  int newCost;
-  //Generate all neighbour and evaluate the transpose
-  for (int j = 0; j < PSize; j++){ //First element to transpose
-    for (int k = j-1; k<=j+1; k++){ //Second element to transpose
-      if (k > 0 && j != k && k < PSize){
-        exchange(newsol, j, k); //Since transpose is an exchange
-        //Compute the cost of the neighbour
-        newCost = computeCost(newsol);
-        if (newCost > cost){//If the first neighbour found is better, stop
-          //Copy the new solution in the current solution
-          for (int i = 0; i < PSize; i++){
-            sol[i] = newsol[i];
-          }
-          return;
-        }
-      }
-    }
-  }
-  return;
-}
-
-
-long int* best_improvement(long int * sol){
-  //Enumerates all neighbours and chooses the best one
-
-
-}
-
-void print_solution(long int *s){
+void printSolution(long int *s){
+  /*Function that print the solution in the standard output (permutation vector)*/
   int j;
   for (j=0; j < PSize; j++) 
     printf(" %ld", s[j]);
@@ -134,7 +124,7 @@ int main (int argc, char **argv)
 
   /* Print solution */
   printf("Initial solution:\n");
-  print_solution(currentSolution);
+  printSolution(currentSolution);
 
   /* Compute cost of solution and print it */
   cost = computeCost(currentSolution);
@@ -157,21 +147,23 @@ int main (int argc, char **argv)
   printf("Solution after exchange:\n");
   print_solution(currentSolution);
   */
-  //Copy the solution
+
+  //Copy the solution into newSol
   long int *newSol = (long int *)malloc(PSize * sizeof(long int));
   for (int i = 0; i < PSize; i++){
     newSol[i] = currentSolution[i];
   }
-  for (int i=0;i<ITERATIONS;i++){ //Loop the number of iterations
-    printf("Iteration %d\n", i);
-    
-    // Use of first improvement algorithm
-    newCost = computeCost(newSol);
-    first_improvement(currentSolution, newSol, newCost);
-    
-    // Use of best improvement algorithm
-    //currentSolution = best_improvement(currentSolution, ITERATIONS);
 
+  for (int i = 1; i <= ITERATIONS; i++){ //Loop the number of iterations
+    //printf("Iteration %d\n", i);
+
+    newCost = computeCost(newSol);
+    // Use of first improvement algorithm
+    if (improvFlag == 0)
+      firstImprovement(currentSolution, newSol, newCost);
+    else
+      bestImprovement(currentSolution, newSol);
+    
   }
  
 
