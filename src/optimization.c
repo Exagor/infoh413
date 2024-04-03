@@ -101,7 +101,7 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
   else if(permutFlag == 0){// Case exchange
     //Generate all neigbours and evaluate the exchange
     for (int j = 0; j < PSize; j++){ //First element to exchange
-      for (int k = 0; k < PSize; k++){ //Second element to exchange
+      for (int k = j; k < PSize; k++){ //Second element to exchange
         if (j != k){
           // memcpy(newsol, sol, PSize * sizeof(long int));
           for (int l = 0; l < PSize; l++){
@@ -180,7 +180,7 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
   else if(permutFlag == 0){// Case exchange
     //Generate all neigbours and evaluate the exchange
     for (int j = 0; j < PSize; j++){ //First element to exchange
-      for (int k = 0; k < PSize; k++){ //Second element to exchange
+      for (int k = j; k < PSize; k++){ //Second element to exchange
         if (j != k){
           // memcpy(newsol, sol, PSize * sizeof(long int));
           for (int l = 0; l < PSize; l++){

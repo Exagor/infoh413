@@ -11,7 +11,7 @@ lop: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o lop
 
 test: lop
-	./lop -i instances/N-be75eec_250 --best --exchange --random
+	./lop -i instances/N-t75k11xx_250 --best --insert --random
 
 clean:
 	rm -f src/*~ src/*.o lop

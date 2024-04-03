@@ -20,6 +20,7 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "utilities.h"
 #include "instance.h"
@@ -122,7 +123,46 @@ void insert(long int* vector, int i, int j){
   vector[j] = temp;
 }
 
-void statsToFile(){
+void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, double timeTaken, int cost){
   /*Function that sends stats to a file */
+  FILE *file;
+  char filePath[100];
 
+  // Find the "instances" substring in FileName
+  char* instancesSubstr = strstr(FileName, "instances");
+  if (instancesSubstr != NULL) {
+    // Construct the new path by replacing "instances" with "results"
+    sprintf(filePath, "results%s_res", instancesSubstr + strlen("instances"));
+  } else {
+    // If "instances" is not found, just append FileName to "results"
+    sprintf(filePath, "results/%s_res", FileName);
+  }
+
+  file = fopen(filePath, "a");
+  if (file == NULL) {
+    fprintf(stderr, "Error opening file\n");
+    return;
+  }
+  
+  //Format the file
+  const char *improvStr = (improvFlag == 0) ? "first" : "best";
+  const char *permutStr;
+  switch(permutFlag) {
+    case 0:
+      permutStr = "exchange";
+      break;
+    case 1:
+      permutStr = "transpose";
+      break;
+    case 2:
+      permutStr = "insert";
+      break;
+    default:
+      permutStr = "unknown";
+  }
+  const char *initStr = (initFlag == 0) ? "random" : "CW";
+
+  fprintf(file,"%s %s %s %lf %d \n", improvStr, permutStr, initStr, timeTaken,cost);
+  printf("Successfully wrote to file %s\n", filePath);
+  fclose(file);
 }

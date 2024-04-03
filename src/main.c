@@ -198,8 +198,11 @@ int main (int argc, char **argv)
     printf("Maximum number of iterations reached (%d)\n",MAXITERATIONS);
   else
     printf("Number of iterations to obtain (local) maxima : %d\n", nbIterations);
-  printf("Time elapsed since we started the timer: %g\n\n", elapsed_time(VIRTUAL));
+  double timeTaken = elapsed_time(VIRTUAL);
+  printf("Time elapsed since we started the timer: %g\n\n", timeTaken);
 
+  /* Save the results in a file*/
+  statsToFile(FileName, improvFlag, permutFlag, initFlag, timeTaken, newCost);
   /* Free memory */
   free(currentSolution);
   free(newSol);
