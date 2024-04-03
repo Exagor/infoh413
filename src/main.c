@@ -129,30 +129,12 @@ int main (int argc, char **argv)
   }
 
   /* Print solution */
-  printf("Initial solution:\n");
-  printSolution(currentSolution);
+  //printf("Initial solution:\n");
+  //printSolution(currentSolution);
 
   /* Compute cost of solution and print it */
   cost = computeCost(currentSolution);
   printf("Cost of this initial solution: %d\n\n", cost);
-
-  /* Example: apply an exchange operation of two elements at random position
-  firstRandomPosition = randInt(0,PSize-1);
-  // Ensure second position is different from first one:
-  secondRandomPosition = firstRandomPosition + randInt(1,(PSize-2));
-  if (secondRandomPosition >= PSize)
-    secondRandomPosition -= PSize;
-
-  printf("Two positions exchanged: %d and %d. ", firstRandomPosition, secondRandomPosition);
-
-  temp = currentSolution[firstRandomPosition];
-  currentSolution[firstRandomPosition] = currentSolution[secondRandomPosition];
-  currentSolution[secondRandomPosition] = temp;
-
-  // Print again the solution after the exchange
-  printf("Solution after exchange:\n");
-  print_solution(currentSolution);
-  */
 
   //Copy the solution into newSol
   long int *newSol = (long int *)malloc(PSize * sizeof(long int));
@@ -161,9 +143,10 @@ int main (int argc, char **argv)
   }
   newCost = cost;
   int prevCost = cost;
+  printf("Computing ... \n");
   for (int i = 1; i <= MAXITERATIONS; i++){ //Loop the number of iterations
     // if (i % 100 == 0)
-      printf("Iteration %d\n", i);
+      printf("Iteration %d : %d\n", i, newCost);
     nbIterations++;
 
     // Use of first improvement algorithm
@@ -202,7 +185,7 @@ int main (int argc, char **argv)
   printf("Time elapsed since we started the timer: %g\n\n", timeTaken);
 
   /* Save the results in a file*/
-  statsToFile(FileName, improvFlag, permutFlag, initFlag, timeTaken, newCost);
+  statsToFile(FileName, improvFlag, permutFlag, initFlag, timeTaken, newCost, nbIterations);
   /* Free memory */
   free(currentSolution);
   free(newSol);

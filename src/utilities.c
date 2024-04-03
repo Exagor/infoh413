@@ -123,7 +123,7 @@ void insert(long int* vector, int i, int j){
   vector[j] = temp;
 }
 
-void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, double timeTaken, int cost){
+void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, double timeTaken, int cost, int iterations){
   /*Function that sends stats to a file */
   FILE *file;
   char filePath[100];
@@ -132,10 +132,10 @@ void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, d
   char* instancesSubstr = strstr(FileName, "instances");
   if (instancesSubstr != NULL) {
     // Construct the new path by replacing "instances" with "results"
-    sprintf(filePath, "results%s_res", instancesSubstr + strlen("instances"));
+    sprintf(filePath, "results%s", instancesSubstr + strlen("instances"));
   } else {
     // If "instances" is not found, just append FileName to "results"
-    sprintf(filePath, "results/%s_res", FileName);
+    sprintf(filePath, "results/%s", FileName);
   }
 
   file = fopen(filePath, "a");
@@ -162,7 +162,8 @@ void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, d
   }
   const char *initStr = (initFlag == 0) ? "random" : "CW";
 
-  fprintf(file,"%s %s %s %lf %d \n", improvStr, permutStr, initStr, timeTaken,cost);
+  //save the file
+  fprintf(file,"%s %s %s %lf %d %i\n", improvStr, permutStr, initStr, timeTaken,cost, iterations);
   printf("Successfully wrote to file %s\n", filePath);
   fclose(file);
 }

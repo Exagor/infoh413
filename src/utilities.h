@@ -39,7 +39,7 @@ extern long int * generate_random_vector(long int dim );
 
 void exchange(long int* vector, int i, int j);
 void insert(long int* vector, int i, int j);
-void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, double timeTaken, int cost);
+void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, double timeTaken, int cost, int iterations);
 
 
 /* constants for a pseudo-random number generator, taken from

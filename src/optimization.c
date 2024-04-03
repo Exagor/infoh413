@@ -76,7 +76,7 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
   int newCost;
   if (permutFlag == 1){
     //Generate all neighbour and evaluate the transpose
-    for (int j = 0; j < PSize; j++){ //First element to transpose
+    for (int j = 0; j < PSize; j=j+2){ //First element to transpose
       for (int k = j-1; k <= j+1; k++){ //Second element to transpose
         if (k > 0 && j != k && k < PSize){
           // memcpy(newsol, sol, PSize * sizeof(long int));
@@ -155,7 +155,7 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
   bestCost = cost;
   if (permutFlag == 1){
     //Generate all neighbour and evaluate the transpose
-    for (int j = 0; j < PSize; j++){ //First element to transpose
+    for (int j = 0; j < PSize; j=j+2){ //First element to transpose
       for (int k = j-1; k <= j+1; k++){ //Second element to transpose
         if (k > 0 && j != k && k < PSize){
           // memcpy(newsol, sol, PSize * sizeof(long int));
