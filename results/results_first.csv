@@ -1,25 +1,25 @@
-instance, size, algorithm, permutation, initial, time, cost, iterations
-N-be75eec_150, 150, best, exchange, CW, 0.691256, 3390654, 11
-N-be75eec_150, 150, best, exchange, random, 0.905210, 3375908, 15
-N-be75eec_150, 150, best, transpose, CW, 0.004794, 2791789, 6
-N-be75eec_150, 150, best, transpose, random, 0.005857, 2110005, 5
-N-be75eec_150, 150, best, insert, CW, 2.012527, 3406798, 16
-N-be75eec_150, 150, best, insert, random, 1.280920, 3404893, 10
-N-be75eec_150, 150, first, exchange, CW, 29.419130, 3397712, 1162
-N-be75eec_150, 150, first, exchange, random, 31.602735, 3388243, 1532
-N-be75eec_150, 150, first, transpose, CW, 0.038489, 2791789, 92
-N-be75eec_150, 150, first, transpose, random, 0.038490, 2110005, 81
-N-be75eec_150, 150, first, insert, CW, 62.127437, 3428494, 1616
-N-be75eec_150, 150, first, insert, random, 81.677942, 3419060, 2397
-N-be75eec_250, 250, best, exchange, CW, 6.743668, 8594800, 14
-N-be75eec_250, 250, best, exchange, random, 6.828010, 8590678, 14
-N-be75eec_250, 250, best, transpose, CW, 0.028581, 7112369, 6
-N-be75eec_250, 250, best, transpose, random, 0.031638, 5668583, 7
-N-be75eec_250, 250, best, insert, CW, 13.609198, 8729117, 14
-N-be75eec_250, 250, best, insert, random, 15.564986, 8684528, 16
-N-be75eec_250, 250, first, exchange, CW, 509.174048, 8696422, 2770
-N-be75eec_250, 250, first, exchange, random, 526.343453, 8717808, 3606
-N-be75eec_250, 250, first, transpose, CW, 0.363510, 7112369, 150
-N-be75eec_250, 250, first, transpose, random, 0.333311, 5668583, 156
-N-be75eec_250, 250, first, insert, CW, 994.991300, 8696946, 3194
-N-be75eec_250, 250, first, insert, random, 1664.012862, 8695911, 5790
+"instance","size","algorithm","permutation","initial","time","cost","iterations","relative_deviation"
+"N-be75eec_150",150," best"," exchange"," CW",0.691256,3390654,11,2.6465274770962
+"N-be75eec_150",150," best"," exchange"," random",0.90521,3375908,15,3.06991904280085
+"N-be75eec_150",150," best"," transpose"," CW",0.004794,2791789,6,19.8413186066036
+"N-be75eec_150",150," best"," transpose"," random",0.005857,2110005,5,39.4169048830433
+"N-be75eec_150",150," best"," insert"," CW",2.012527,3406798,16,2.18299611694864
+"N-be75eec_150",150," best"," insert"," random",1.28092,3404893,10,2.23769304714445
+"N-be75eec_150",150," first"," exchange"," CW",29.41913,3397712,1162,2.44387606852822
+"N-be75eec_150",150," first"," exchange"," random",31.602735,3388243,1532,2.71575283074559
+"N-be75eec_150",150," first"," transpose"," CW",0.038489,2791789,92,19.8413186066036
+"N-be75eec_150",150," first"," transpose"," random",0.03849,2110005,81,39.4169048830433
+"N-be75eec_150",150," first"," insert"," CW",62.127437,3428494,1616,1.56005407100207
+"N-be75eec_150",150," first"," insert"," random",81.677942,3419060,2397,1.8309259027434
+"N-be75eec_250",250," best"," exchange"," CW",6.743668,8594800,14,3.35899130300635
+"N-be75eec_250",250," best"," exchange"," random",6.82801,8590678,14,3.40533958776563
+"N-be75eec_250",250," best"," transpose"," CW",0.028581,7112369,6,20.0276313136748
+"N-be75eec_250",250," best"," transpose"," random",0.031638,5668583,7,36.2617420995683
+"N-be75eec_250",250," best"," insert"," CW",13.609198,8729117,14,1.84871411620106
+"N-be75eec_250",250," best"," insert"," random",15.564986,8684528,16,2.35007842215237
+"N-be75eec_250",250," first"," exchange"," CW",509.174048,8696422,2770,2.21634079504737
+"N-be75eec_250",250," first"," exchange"," random",526.343453,8717808,3606,1.97587392996686
+"N-be75eec_250",250," first"," transpose"," CW",0.36351,7112369,150,20.0276313136748
+"N-be75eec_250",250," first"," transpose"," random",0.333311,5668583,156,36.2617420995683
+"N-be75eec_250",250," first"," insert"," CW",994.9913,8696946,3194,2.2104488733555
+"N-be75eec_250",250," first"," insert"," random",1664.012862,8695911,5790,2.22208654310947
