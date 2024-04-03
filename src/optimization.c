@@ -73,7 +73,7 @@ void createCWSolution(long int *s){
   int maxIndex;
   int *costRow = malloc(PSize * sizeof(int));
 
-  // Calculate the cost of each row and find the row with the maximum sum
+  // Calculate the cost of each row and add them in costRow in the order
   for (int i = 0; i < PSize; i++) {
     sum = 0;
     for (int j = 0; j < PSize; j++) {
@@ -128,12 +128,8 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
   else if(permutFlag == 0){// Case exchange
     //Generate all neigbours and evaluate the exchange
     for (int j = 0; j < PSize; j++){ //First element to exchange
-      for (int k = j; k < PSize; k++){ //Second element to exchange
+      for (int k = PSize -1; k >= j; k--){ //Second element to exchange
         if (j != k){
-          // memcpy(newsol, sol, PSize * sizeof(long int));
-          for (int l = 0; l < PSize; l++){
-            newsol[l] = sol[l];
-          }
           exchange(newsol, j, k);
           //Compute the cost of the neighbour
           newCost = computeCost(newsol);
@@ -143,6 +139,9 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
               sol[l] = newsol[l];
             }
             return newCost;
+          }
+          else{
+            exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
           }
         }
       }
@@ -209,10 +208,6 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
     for (int j = 0; j < PSize; j++){ //First element to exchange
       for (int k = j; k < PSize; k++){ //Second element to exchange
         if (j != k){
-          // memcpy(newsol, sol, PSize * sizeof(long int));
-          for (int l = 0; l < PSize; l++){
-            newsol[l] = sol[l];
-          }
           exchange(newsol, j, k);
           //Compute the cost of the neighbour
           newCost = computeCost(newsol);
@@ -223,6 +218,7 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
             }
             bestCost = newCost;
           }
+          exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
         }
       }
     }

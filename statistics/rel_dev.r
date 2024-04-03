@@ -1,3 +1,5 @@
+#Script that calulates the relative deviation of the results of the instances from the best known results
+
 # Read values from the file "best_known.txt"
 best <- read.table("best_known/best_known.txt", header = FALSE, col.names = c("instance", "cost"))
 
@@ -12,4 +14,4 @@ results_costs <- results$cost # Extract the results costs
 results$relative_deviation <- ((best_costs - results_costs) / best_costs) * 100
 
 # Save the updated data to a file
-write.csv(results, file = "results/updated_results.csv", row.names = FALSE)
+write.csv(results, file = "results/results_complete.csv", row.names = FALSE)

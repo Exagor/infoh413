@@ -161,6 +161,6 @@ void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, d
 
   //save the file
   fprintf(file,"%s, %ld, %s, %s, %s, %lf, %d, %i\n",exactFileName ,PSize, improvStr, permutStr, initStr, timeTaken, cost, iterations);
-  printf("Successfully wrote to file\n");
+  printf("Successfully written to file\n");
   fclose(file);
 }
