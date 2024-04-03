@@ -11,5 +11,5 @@ results_costs <- results$cost # Extract the results costs
 # Calculate the relative deviation
 results$relative_deviation <- ((best_costs - results_costs) / best_costs) * 100
 
-# Print the updated data
-print(results)
+# Save the updated data to a file
+write.csv(results, file = "results/updated_results.csv", row.names = FALSE)
