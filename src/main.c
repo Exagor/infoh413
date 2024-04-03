@@ -102,7 +102,7 @@ int main (int argc, char **argv)
 
   /* Read instance file */
   CostMat = readInstance(FileName);
-  printf("Data have been read from instance file. Size of instance = %ld.\n\n", PSize);
+  printf("Data have been read from instance file %s. Size of instance = %ld.\n\n", FileName, PSize);
 
   /* initialize random number generator, deterministically based on instance.
    * To do this we simply set the seed to the sum of elements in the matrix, so it is constant per-instance,
@@ -129,8 +129,8 @@ int main (int argc, char **argv)
   }
 
   /* Print solution */
-  printf("Initial solution:\n");
-  printSolution(currentSolution);
+  //printf("Initial solution:\n");
+  //printSolution(currentSolution);
 
   /* Compute cost of solution and print it */
   cost = computeCost(currentSolution);
