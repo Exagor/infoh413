@@ -126,7 +126,6 @@ void insert(long int* vector, int i, int j){
 void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, double timeTaken, int cost, int iterations){
   /*Function that sends stats to a file */
   FILE *file;
-  char filePath[100];
 
   file = fopen("results/results_ii.csv", "a");
   if (file == NULL) {

@@ -86,7 +86,7 @@ int main (int argc, char **argv)
 {
   long int i,j;
   long int *currentSolution;
-  int cost, newCost, temp, firstRandomPosition, secondRandomPosition;
+  int cost, newCost;
 
   /* Do not buffer output */
   setbuf(stdout,NULL);
