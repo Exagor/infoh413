@@ -128,20 +128,17 @@ void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, d
   FILE *file;
   char filePath[100];
 
-  // Find the "instances" substring in FileName
-  char* instancesSubstr = strstr(FileName, "instances");
-  if (instancesSubstr != NULL) {
-    // Construct the new path by replacing "instances" with "results"
-    sprintf(filePath, "results_ii%s", instancesSubstr + strlen("instances"));
-  } else {
-    // If "instances" is not found, just append FileName to "results"
-    sprintf(filePath, "results_ii/%s", FileName);
-  }
-
-  file = fopen(filePath, "a");
+  file = fopen("results/results_ii.csv", "a");
   if (file == NULL) {
     fprintf(stderr, "Error opening file\n");
     return;
+  }
+
+  const char* exactFileName = strrchr(FileName, '/');
+  if (exactFileName != NULL) {
+    exactFileName++; // Move past the '/'
+  } else {
+    exactFileName = FileName; // No '/' found, use the whole FileName
   }
   
   //Format the file
@@ -163,7 +160,7 @@ void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, d
   const char *initStr = (initFlag == 0) ? "random" : "CW";
 
   //save the file
-  fprintf(file,"%s %s %s %lf %d %i\n", improvStr, permutStr, initStr, timeTaken,cost, iterations);
-  printf("Successfully wrote to file %s\n", filePath);
+  fprintf(file,"%s, %s, %s, %s, %lf, %d, %i\n",exactFileName , improvStr, permutStr, initStr, timeTaken, cost, iterations);
+  printf("Successfully wrote to file\n");
   fclose(file);
 }
