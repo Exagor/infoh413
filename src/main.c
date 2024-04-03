@@ -129,8 +129,8 @@ int main (int argc, char **argv)
   }
 
   /* Print solution */
-  //printf("Initial solution:\n");
-  //printSolution(currentSolution);
+  printf("Initial solution:\n");
+  printSolution(currentSolution);
 
   /* Compute cost of solution and print it */
   cost = computeCost(currentSolution);
@@ -141,12 +141,14 @@ int main (int argc, char **argv)
   for (int i = 0; i < PSize; i++){
     newSol[i] = currentSolution[i];
   }
+
   newCost = cost;
   int prevCost = cost;
   printf("Computing ... \n");
+
   for (int i = 1; i <= MAXITERATIONS; i++){ //Loop the number of iterations
     // if (i % 100 == 0)
-      printf("Iteration %d : %d\n", i, newCost);
+      //printf("Iteration %d : %d\n", i, newCost);
     nbIterations++;
 
     // Use of first improvement algorithm

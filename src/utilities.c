@@ -132,10 +132,10 @@ void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, d
   char* instancesSubstr = strstr(FileName, "instances");
   if (instancesSubstr != NULL) {
     // Construct the new path by replacing "instances" with "results"
-    sprintf(filePath, "results%s", instancesSubstr + strlen("instances"));
+    sprintf(filePath, "results_ii%s", instancesSubstr + strlen("instances"));
   } else {
     // If "instances" is not found, just append FileName to "results"
-    sprintf(filePath, "results/%s", FileName);
+    sprintf(filePath, "results_ii/%s", FileName);
   }
 
   file = fopen(filePath, "a");

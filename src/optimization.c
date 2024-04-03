@@ -68,7 +68,34 @@ void createRandomSolution(long int *s) {
 }
 
 void createCWSolution(long int *s){
-  
+  /*Search for the lines with the greatest impact on the sum and assemble the solution*/
+  long int sum, maxSum;
+  int maxIndex;
+  int *costRow = malloc(PSize * sizeof(int));
+
+  // Calculate the cost of each row and find the row with the maximum sum
+  for (int i = 0; i < PSize; i++) {
+    sum = 0;
+    for (int j = 0; j < PSize; j++) {
+      sum += CostMat[i][j];
+    }
+    costRow[i] = sum;
+  }
+
+  // Add the row number from the biggest to smallest in s
+  for(int rowNb = 0; rowNb < PSize; rowNb++){
+    maxSum = costRow[0];
+    maxIndex = 0;
+    for (int i = 1; i < PSize; i++) {
+      if (costRow[i] > maxSum) {
+        maxSum = costRow[i];
+        maxIndex = i;
+      }
+    }
+    s[rowNb] = maxIndex;
+    costRow[maxIndex] = -1;
+  }
+
 }
 
 int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag){
