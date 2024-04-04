@@ -174,8 +174,7 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
   //Enumerates all neighbours and chooses the best one
   int newCost, bestCost;
   bestCost = cost;
-  if (permutFlag == 1){
-    //Generate all neighbour and evaluate the transpose
+  if (permutFlag == 1){//Case transpose
     for (int j = 0; j < PSize; j=j+2){ //First element to transpose
       for (int k = j-1; k <= j+1; k++){ //Second element to transpose
         if (k > 0 && j != k && k < PSize){
@@ -190,7 +189,9 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
             }
             bestCost = newCost;
           }
-          exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+          else{ //We must else because we don't exit the function like in firstImprovement
+            exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+          }
         }
       }
     }
@@ -210,7 +211,10 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
             }
             bestCost = newCost;
           }
-          exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+          else{
+            exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+          }
+          
         }
       }
     }

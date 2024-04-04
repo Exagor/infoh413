@@ -11,7 +11,7 @@ initial_aggregate_250
 
 # Aggregate by permutation and calculate mean cost and time for size = 150
 permutation_aggregate_150 <- aggregate(cbind(relative_deviation, time) ~ permutation, data = subset(results, size == 150), FUN = mean)
-print("Permutation aggregate for size = 250")
+print("Permutation aggregate for size = 150")
 permutation_aggregate_150
 
 # Aggregate by initial and calculate mean cost and time for size = 150
