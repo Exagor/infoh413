@@ -11,7 +11,7 @@ lop: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o lop
 
 test: lop
-	./lop -i instances/N-be75eec_150 --first --exchange --cw
+	./lop -i instances/N-be75oi_150 --vnd2
 
 clean:
 	rm -f src/*~ src/*.o lop

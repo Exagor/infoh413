@@ -35,6 +35,7 @@ char *FileName = NULL;
 int improvFlag = 0; // 0 for first, 1 for best
 int permutFlag = 0; // 0 for exchange, 1 for transpose, 2 for insert
 int initFlag = 0; // 0 for random, 1 for CW
+int vndFlag = 0; // 1 for VND1, 2 for VND2
 int nbIterations = 0;
 
 void readOpts(int argc, char **argv) {
@@ -49,6 +50,16 @@ void readOpts(int argc, char **argv) {
     } else if (strcmp(argv[i], "--first") == 0) {
       improvFlag = 0;
       printf("Iterative improvement : First selected\n");
+    } else if (strcmp(argv[i], "--vnd1") == 0) {
+      vndFlag = 1;
+      improvFlag = 0;
+      initFlag = 1;
+      printf("Variable neighbourhood descending 1 selected\n");
+    } else if (strcmp(argv[i], "--vnd2") == 0) {
+      vndFlag = 2;
+      improvFlag = 0;
+      initFlag = 1;
+      printf("Variable neighbourhood descending 2 selected\n");
     } else if (strcmp(argv[i], "--exchange") == 0) {
       permutFlag = 0;
       printf("Permutation mode : Exchange selected\n");
@@ -146,28 +157,53 @@ int main (int argc, char **argv)
   int prevCost = cost;
   printf("Computing ... \n");
 
-  for (int i = 1; i <= MAXITERATIONS; i++){ //Loop the number of iterations
-    // if (i % 100 == 0)
-      //printf("Iteration %d : %d\n", i, newCost);
-    nbIterations++;
+  if (vndFlag==0){//Normal iterative improvement mode
+    for (int i = 1; i <= MAXITERATIONS; i++){ //Loop the number of iterations
+      // if (i % 100 == 0)
+        //printf("Iteration %d : %d\n", i, newCost);
+      nbIterations++;
 
-    // Use of first improvement algorithm
-    if (improvFlag == 0){
-      newCost = firstImprovement(currentSolution, newSol, newCost, permutFlag);
-      if (newCost == prevCost){ //Stop condition
-        break;
+      // Use of first improvement algorithm
+      if (improvFlag == 0){
+        newCost = firstImprovement(currentSolution, newSol, newCost, permutFlag);
+        if (newCost == prevCost){ //Stop condition
+          break;
+        }
       }
-    }
-    else if (improvFlag == 1){
-      newCost = bestImprovement(currentSolution, newSol, newCost, permutFlag);
-      if (newCost == prevCost){
-        break;
+      else if (improvFlag == 1){
+        newCost = bestImprovement(currentSolution, newSol, newCost, permutFlag);
+        if (newCost == prevCost){
+          break;
+        }
       }
-    }
 
-    prevCost = newCost; //Actualize the previous cost
+      prevCost = newCost; //Actualize the previous cost
+    }
   }
-
+  else{//VND mode
+    for (int i = 1; i <= MAXITERATIONS; i++){
+      int descent = 0;
+      while (descent < 3){
+        if (vndFlag == 1){
+          newCost = VND1(currentSolution, newSol, newCost, descent);
+        }
+        else if (vndFlag == 2){
+          newCost = VND2(currentSolution, newSol, newCost, descent);
+        }
+        if (newCost > prevCost){
+          descent = 0;
+          prevCost = newCost;
+          nbIterations++;
+        }
+        else{
+          descent++;
+        }
+      }
+      if (newCost == prevCost){
+          break;
+        }
+    }
+  }
   /* Recompute cost of solution */
   /* There are some more efficient way to do this, instead of recomputing everything... */
   printf("Cost of the solution after applying the algo: %d\n", newCost);
@@ -187,7 +223,7 @@ int main (int argc, char **argv)
   printf("Time elapsed since we started the timer: %g\n\n", timeTaken);
 
   /* Save the results in a file*/
-  statsToFile(FileName, improvFlag, permutFlag, initFlag, timeTaken, newCost, nbIterations);
+  statsToFile(FileName, improvFlag, permutFlag, initFlag, vndFlag, timeTaken, newCost, nbIterations);
   /* Free memory */
   free(currentSolution);
   free(newSol);

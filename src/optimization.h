@@ -29,6 +29,7 @@ void createRandomSolution(long int *s);
 void createCWSolution(long int *s);
 int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag);
 int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag);
-
+int VND1(long int * sol, long int * newsol, int cost, int descent);
+int VND2(long int * sol, long int * newsol, int cost, int descent);
 
 #endif

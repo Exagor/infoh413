@@ -123,11 +123,11 @@ void insert(long int* vector, int i, int j){
   vector[j] = temp;
 }
 
-void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, double timeTaken, int cost, int iterations){
+void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, int vndFlag, double timeTaken, int cost, int iterations){
   /*Function that sends stats to a file */
   FILE *file;
 
-  file = fopen("results/results_ii.csv", "a");
+  file = fopen("results/results.csv", "a");
   if (file == NULL) {
     fprintf(stderr, "Error opening file\n");
     return;
@@ -157,9 +157,20 @@ void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, d
       permutStr = "unknown";
   }
   const char *initStr = (initFlag == 0) ? "random" : "CW";
-
+  switch(vndFlag) {
+    case 0:
+      break;
+    case 1:
+      permutStr = "VND1";
+      break;
+    case 2:
+      permutStr = "VND2";
+      break;
+    default:
+      permutStr = "unknown";
+  }
   //save the file
-  fprintf(file,"%s, %ld, %s, %s, %s, %lf, %d, %i\n",exactFileName ,PSize, improvStr, permutStr, initStr, timeTaken, cost, iterations);
+  fprintf(file,"%s,%ld,%s,%s,%s,%lf,%d,%i\n",exactFileName ,PSize, improvStr, permutStr, initStr, timeTaken, cost, iterations);
   printf("Successfully written to file\n");
   fclose(file);
 }

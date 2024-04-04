@@ -106,10 +106,6 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
     for (int j = 0; j < PSize; j=j+2){ //First element to transpose
       for (int k = j-1; k <= j+1; k++){ //Second element to transpose
         if (k > 0 && j != k && k < PSize){
-          // memcpy(newsol, sol, PSize * sizeof(long int));
-          for (int l = 0; l < PSize; l++){
-            newsol[l] = sol[l];
-          }
           exchange(newsol, j, k); //Since transpose is an exchange
           //Compute the cost of the neighbour
           newCost = computeCost(newsol);
@@ -121,6 +117,7 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
             }
             return newCost;
           }
+          exchange(newsol, j, k);
         }
       }
     }
@@ -140,9 +137,7 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
             }
             return newCost;
           }
-          else{
-            exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
-          }
+          exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
         }
       }
     }
@@ -184,10 +179,6 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
     for (int j = 0; j < PSize; j=j+2){ //First element to transpose
       for (int k = j-1; k <= j+1; k++){ //Second element to transpose
         if (k > 0 && j != k && k < PSize){
-          // memcpy(newsol, sol, PSize * sizeof(long int));
-          for (int l = 0; l < PSize; l++){
-            newsol[l] = sol[l];
-          }
           exchange(newsol, j, k); //Since transpose is an exchange
           //Compute the cost of the neighbour
           newCost = computeCost(newsol);
@@ -199,6 +190,7 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
             }
             bestCost = newCost;
           }
+          exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
         }
       }
     }
@@ -249,4 +241,131 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
   return bestCost;
 }
 
+int VND1(long int * sol, long int * newsol, int cost, int descent){
+  int newCost = cost;
+  if (descent == 0){//transpose
+    for (int j = 0; j < PSize; j=j+2){
+      for (int k = j-1; k <= j+1; k++){
+        if (k > 0 && j != k && k < PSize){
+          exchange(newsol, j, k); 
+          newCost = computeCost(newsol);
+          if (newCost > cost){
+            //Copy the new solution in the current solution
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
+            }
+            return newCost;
+          }
+          exchange(newsol, j, k);
+        }
+      }
+    }
+  }
+  else if (descent==1){ //exchange
+    for (int j = 0; j < PSize; j++){
+      for (int k = PSize -1; k >= j; k--){
+        if (j != k){
+          exchange(newsol, j, k);
+          newCost = computeCost(newsol);
+          if (newCost > cost){
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
+            }
+            return newCost;
+          }
+          exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+        }
+      }
+    }
+  }
+  else if (descent==2){//insert
+    for (int j = 0; j < PSize; j++){
+      for (int k = 0; k < PSize; k++){
+        if (j != k){
+          // memcpy(newsol, sol, PSize * sizeof(long int));
+          for (int l = 0; l < PSize; l++){
+            newsol[l] = sol[l];
+          }
+          insert(newsol, j, k);
+          newCost = computeCost(newsol);
+          if (newCost > cost){
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
+            }
+            return newCost;
+          }
+        }
+      }
+    }
+  }
+    
+  return cost;
+}
+
+int VND2(long int * sol, long int * newsol, int cost, int descent){
+  int newCost = cost;
+  if (descent == 0){//transpose
+    for (int j = 0; j < PSize; j=j+2){
+      for (int k = j-1; k <= j+1; k++){
+        if (k > 0 && j != k && k < PSize){
+          exchange(newsol, j, k); 
+          newCost = computeCost(newsol);
+          if (newCost > cost){
+            //Copy the new solution in the current solution
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
+            }
+            return newCost;
+          }
+          exchange(newsol, j, k);
+        }
+      }
+    }
+  }
+  else if (descent==2){ //exchange
+    for (int j = 0; j < PSize; j++){
+      for (int k = PSize -1; k >= j; k--){
+        if (j != k){
+          exchange(newsol, j, k);
+          newCost = computeCost(newsol);
+          if (newCost > cost){
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
+            }
+            return newCost;
+          }
+          exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+        }
+      }
+    }
+  }
+  else if (descent==1){//insert
+    for (int j = 0; j < PSize; j++){
+      for (int k = 0; k < PSize; k++){
+        if (j != k){
+          // memcpy(newsol, sol, PSize * sizeof(long int));
+          for (int l = 0; l < PSize; l++){
+            newsol[l] = sol[l];
+          }
+          insert(newsol, j, k);
+          newCost = computeCost(newsol);
+          if (newCost > cost){
+            // memcpy(sol, newsol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              sol[l] = newsol[l];
+            }
+            return newCost;
+          }
+        }
+      }
+    }
+  }
+    
+  return cost;
+}
 
