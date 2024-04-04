@@ -1,4 +1,4 @@
-#Script that calulates the relative deviation of the results of the instances from the best known results
+#Script that calculates the relative deviation of the results in comparison with the best knwon results
 
 # Read values from the file "best_known.txt"
 best <- read.table("best_known/best_known.txt", header = FALSE, col.names = c("instance", "cost"))
