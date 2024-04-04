@@ -1,5 +1,5 @@
 #Script to do the paired t-test and the wilcoxon signed rank test over the relative deviation
-results <- read.csv("results/results_best.csv", header = TRUE)
+results <- read.csv("raw_results/results_best.csv", header = TRUE)
 size_inst <- 150
 
 results_ex_rd <- subset(results, permutation == "exchange" & initial == "random" & size == size_inst)

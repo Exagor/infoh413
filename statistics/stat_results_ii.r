@@ -1,5 +1,5 @@
 #Script to make general statistics about raw data
-results <- read.csv("results/results_best.csv", header = TRUE)
+results <- read.csv("raw_results/results_best.csv", header = TRUE)
 
 algo <- "Best"
 results_ex_rd <- subset(results, permutation == "exchange" & initial == "random")
@@ -44,4 +44,4 @@ column_order <- c("algorithm", "size", "average_relative_deviation", "average_ti
 
 stat_results <- stat_results[, column_order]
 #Save the table
-write.csv(stat_results, file = "statistics/stat_results_ii.csv", row.names = FALSE)
+write.csv(stat_results, file = "stat_results/stat_results_ii.csv", row.names = FALSE)

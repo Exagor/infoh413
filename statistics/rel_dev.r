@@ -4,7 +4,7 @@
 best <- read.table("best_known/best_known.txt", header = FALSE, col.names = c("instance", "cost"))
 
 # Read values from the file "results_ii.csv"
-results <- read.csv("results/results.csv", header = TRUE)
+results <- read.csv("raw_results/results.csv", header = TRUE)
 
 # Calculate the relative percentage deviation
 common_indices <- match(results$instance, best$instance)
@@ -14,4 +14,4 @@ results_costs <- results$cost # Extract the results costs
 results$relative_deviation <- ((best_costs - results_costs) / best_costs) * 100
 
 # Save the updated data to a file
-write.csv(results, file = "results/results_complete.csv", row.names = FALSE)
+write.csv(results, file = "raw_results/results_complete.csv", row.names = FALSE)
