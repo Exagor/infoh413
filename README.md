@@ -28,7 +28,9 @@ make clean
 ```
 
 ### Parameters
+
 You can run an instance choosing the parameters :
+
 - Improvement method : --first or --best
 - Permutation type : --transpose, --exchange or --insert
 - Initial solution : --random or --cw

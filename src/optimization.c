@@ -2,7 +2,7 @@
     Adapted by Jérémie Dubois-Lacoste from the ILSLOP implementation
     of Tommaso Schiavinotto:
     ---
-    ILSLOP Iterated Lcaol Search Algorithm for Linear Ordering Problem
+    ILSLOP Iterated Local Search Algorithm for Linear Ordering Problem
     Copyright (C) 2004  Tommaso Schiavinotto (tommaso.schiavinotto@gmail.com)
 
     This program is free software: you can redistribute it and/or modify

@@ -29,7 +29,7 @@
 #include "timer.h"
 #include "optimization.h"
 
-#define MAXITERATIONS 10000
+#define MAXITERATIONS 5000
 
 char *FileName = NULL;
 int improvFlag = 0; // 0 for first, 1 for best
