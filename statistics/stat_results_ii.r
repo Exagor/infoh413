@@ -1,3 +1,4 @@
+#Script to make general statistics about raw data
 results <- read.csv("results/results_best.csv", header = TRUE)
 
 algo <- "Best"
