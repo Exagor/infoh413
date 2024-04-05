@@ -1,11 +1,7 @@
 # Heuristic Optimization assignment
 
-Adapted by Jérémie Dubois-Lacoste from the ILSLOP implementation
-of Tommaso Schiavinotto.
-
-Completed by Alexandre Achten
-
-
+April 2024\
+by Alexandre Achten 000494484
 
 ## How to use:
 
@@ -58,6 +54,16 @@ The default for VND is --first, --cw
 
 ```shell
     ./lop -i instances/N-tiw56r72_250 --vnd1
+```
+
+## Results
+
+The results are stored in the .csv file named "raw_results/results.csv".
+
+To calculate the relative deviation, just run the R script called "statistics/rel_dev.r" from the root directory.
+
+```shell
+    Rscript statistics/rel_dev.r
 ```
 
 ### Best known solutions:

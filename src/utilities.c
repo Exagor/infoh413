@@ -127,7 +127,7 @@ void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, i
   /*Function that sends stats to a file */
   FILE *file;
 
-  file = fopen("results/results.csv", "a");
+  file = fopen("raw_results/results.csv", "a");
   if (file == NULL) {
     fprintf(stderr, "Error opening file\n");
     return;

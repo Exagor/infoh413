@@ -128,7 +128,6 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
       for (int k = PSize -1; k >= j; k--){ //Second element to exchange
         if (j != k){
           exchange(newsol, j, k);
-          //Compute the cost of the neighbour
           newCost = computeCost(newsol);
           if (newCost > cost){
             // memcpy(sol, newsol, PSize * sizeof(long int));
@@ -152,7 +151,6 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
             newsol[l] = sol[l];
           }
           insert(newsol, j, k);
-          //Compute the cost of the neighbour
           newCost = computeCost(newsol);
           if (newCost > cost){
             // memcpy(sol, newsol, PSize * sizeof(long int));
@@ -178,8 +176,7 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
     for (int j = 0; j < PSize; j=j+2){ //First element to transpose
       for (int k = j-1; k <= j+1; k++){ //Second element to transpose
         if (k > 0 && j != k && k < PSize){
-          exchange(newsol, j, k); //Since transpose is an exchange
-          //Compute the cost of the neighbour
+          exchange(newsol, j, k);
           newCost = computeCost(newsol);
           if (newCost > bestCost){//If the neighbour is better, actualize the best cost
             //Copy the new solution in the current solution
@@ -202,7 +199,6 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
       for (int k = j; k < PSize; k++){ //Second element to exchange
         if (j != k){
           exchange(newsol, j, k);
-          //Compute the cost of the neighbour
           newCost = computeCost(newsol);
           if (newCost > bestCost){
             // memcpy(sol, newsol, PSize * sizeof(long int));
@@ -212,7 +208,7 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
             bestCost = newCost;
           }
           else{
-            exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+            exchange(newsol, j, k);
           }
           
         }
@@ -229,7 +225,6 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
             newsol[l] = sol[l];
           }
           insert(newsol, j, k);
-          //Compute the cost of the neighbour
           newCost = computeCost(newsol);
           if (newCost > bestCost){
             // memcpy(sol, newsol, PSize * sizeof(long int));
