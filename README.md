@@ -31,7 +31,8 @@ You can run an instance choosing the parameters :
 - Permutation type : --transpose, --exchange or --insert
 - Initial solution : --random or --cw
 
-If no parameters are entered, the default is --first --exchange --random
+If no parameters are entered, the default is --first --exchange --random.
+The order of the parameters does not matter.
 
 ### Example
     
