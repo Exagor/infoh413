@@ -52,7 +52,8 @@ long long int computeCost (long int *s ) {
 
 long long int computeCostFast(long int *s, int i, int j){
     // Use of properties to make it faster
-    //Idea : take the two elements that are moved and compute the difference in cost of the two 
+    //Idea : take the two elements that are moved and compute the difference in cost of the two
+    return 0;
 }
 
 void createRandomSolution(long int *s) {
