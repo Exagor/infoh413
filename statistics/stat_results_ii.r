@@ -1,7 +1,7 @@
 #Script to make general statistics about raw data
-results <- read.csv("raw_results/results_first.csv", header = TRUE)
+results <- read.csv("raw_results/results_best2.csv", header = TRUE)
 
-algo <- "Best"
+algo <- "Best" #to change
 results_ex_rd <- subset(results, permutation == "exchange" & initial == "random")
 results_ex_cw <- subset(results, permutation == "exchange" & initial == "CW")
 results_in_rd <- subset(results, permutation == "insert" & initial == "random")

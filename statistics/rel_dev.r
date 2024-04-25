@@ -3,7 +3,7 @@
 # Read values from the file "best_known.txt"
 best <- read.table("best_known/best_known.txt", header = FALSE, col.names = c("instance", "cost"))
 
-# Read values from the file "results_ii.csv"
+# Read values from the file "results.csv"
 results <- read.csv("raw_results/results.csv", header = TRUE)
 
 # Calculate the relative percentage deviation

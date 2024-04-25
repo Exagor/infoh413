@@ -1,5 +1,5 @@
 #Script to make general statistics about raw data
-results <- read.csv("raw_results/results_vnd.csv", header = TRUE)
+results <- read.csv("raw_results/results_vnd2.csv", header = TRUE)
 
 algo <- "VND"
 results_vnd1 <- subset(results, permutation == "VND1")
@@ -31,4 +31,4 @@ column_order <- c("algorithm", "size", "average_relative_deviation","sd_relative
 
 stat_results <- stat_results[, column_order]
 #Save the table
-write.csv(stat_results, file = "stat_results/stat_results_vnd.csv", row.names = FALSE)
+write.csv(stat_results, file = "stat_results/stat_results_vnd2.csv", row.names = FALSE)

@@ -102,6 +102,9 @@ void createCWSolution(long int *s){
 int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag){
   /*Return the solution with a better cost*/
   int newCost;
+  for (int l = 0; l < PSize; l++){
+    newsol[l] = sol[l];
+  }
   if (permutFlag == 1){
     //Generate all neighbour and evaluate the transpose
     for (int j = 0; j < PSize; j=j+2){ //First element to transpose
@@ -180,12 +183,12 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
   //Enumerates all neighbours and chooses the best one
   int newCost, bestCost;
   bestCost = cost;
-  long int* reset = malloc(PSize * sizeof(long int));
+  long int* reset = (long int*) malloc(PSize * sizeof(long int));
   // memcpy(reset, sol, PSize * sizeof(long int));
   for (int l = 0; l < PSize; l++){ //Keep instance of initial solution
     reset[l] = sol[l];
   }
-  for (int l = 0; l < PSize; l++){
+  for (int l = 0; l < PSize; l++){ //Initialize the new solution
     newsol[l] = sol[l];
   }
 
