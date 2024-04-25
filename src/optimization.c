@@ -180,6 +180,15 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
   //Enumerates all neighbours and chooses the best one
   int newCost, bestCost;
   bestCost = cost;
+  long int* reset = malloc(PSize * sizeof(long int));
+  // memcpy(reset, sol, PSize * sizeof(long int));
+  for (int l = 0; l < PSize; l++){ //Keep instance of initial solution
+    reset[l] = sol[l];
+  }
+  for (int l = 0; l < PSize; l++){
+    newsol[l] = sol[l];
+  }
+
   if (permutFlag == 1){//Case transpose
     for (int j = 0; j < PSize; j=j+2){ //First element to transpose
       for (int k = j-1; k <= j+1; k++){ //Second element to transpose
@@ -194,9 +203,7 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
             }
             bestCost = newCost;
           }
-          else{ //We must else because we don't exit the function like in firstImprovement
-            exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
-          }
+          exchange(newsol, j, k); //we reset anyway the solution
         }
       }
     }
@@ -215,10 +222,7 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
             }
             bestCost = newCost;
           }
-          else{
-            exchange(newsol, j, k);
-          }
-          
+          exchange(newsol, j, k);
         }
       }
     }
@@ -228,10 +232,6 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
     for (int j = 0; j < PSize; j++){ //First element to insert
       for (int k = 0; k < PSize; k++){ //Second element where to insert
         if (j != k){
-          // memcpy(newsol, sol, PSize * sizeof(long int));
-          for (int l = 0; l < PSize; l++){
-            newsol[l] = sol[l];
-          }
           insert(newsol, j, k);
           newCost = computeCost(newsol);
           if (newCost > bestCost){
@@ -240,6 +240,10 @@ int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag)
               sol[l] = newsol[l];
             }
             bestCost = newCost;
+          }
+          // memcpy(newsol, sol, PSize * sizeof(long int));
+          for (int l = 0; l < PSize; l++){
+            newsol[l] = reset[l];
           }
         }
       }

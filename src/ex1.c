@@ -208,13 +208,6 @@ int main (int argc, char **argv)
   /* There are some more efficient way to do this, instead of recomputing everything... */
   printf("Cost of the solution after applying the algo: %d\n", newCost);
 
-  if (newCost == cost)
-    printf("Second solution is as good as first one\n");
-  else if (newCost > cost)
-    printf("Second solution is better than first one\n");
-  else
-    printf("Second solution is worse than first one\n");
-
   if (nbIterations == MAXITERATIONS)
     printf("Maximum number of iterations reached (%d)\n",MAXITERATIONS);
   else

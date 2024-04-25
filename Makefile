@@ -13,7 +13,7 @@ lop: $(OBJECTS) $(OBJECTS2)
 	$(CC) $(CFLAGS) $(OBJECTS2) -o lop2
 
 test: lop
-	./lop -i instances/N-tiw56r72_250 --best --exchange --cw
+	./lop -i instances/N-be75eec_250 --best --insert --cw
 
 clean:
 	rm -f src/*~ src/*.o lop lop2
