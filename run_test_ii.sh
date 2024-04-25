@@ -4,7 +4,7 @@
 instances_folder="instances"
 
 # Loop through all files in the "instances" folder
-for file in "${instances_folder}"/*150*; do # "/*150*" if we want only 150 size instances
+for file in "${instances_folder}"/*250*; do # "/*150*" if we want only 150 size instances
     # Check if the file is a regular file
     if [[ -f "${file}" ]]; then
         # Run the lop program with different parameter combinations
