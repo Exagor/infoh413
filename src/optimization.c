@@ -116,9 +116,12 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
             for (int l = 0; l < PSize; l++){
               sol[l] = newsol[l];
             }
-            return newCost;
+            cost = newCost;
           }
-          exchange(newsol, j, k);
+          else{
+            exchange(newsol, j, k);
+          }
+
         }
       }
     }
@@ -135,9 +138,11 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
             for (int l = 0; l < PSize; l++){
               sol[l] = newsol[l];
             }
-            return newCost;
+            cost = newCost;
           }
-          exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+          else{
+            exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+          }
         }
       }
     }
@@ -147,10 +152,6 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
     for (int j = 0; j < PSize; j++){ //First element to insert
       for (int k = 0; k < PSize; k++){ //Second element where to insert
         if (j != k){
-          // memcpy(newsol, sol, PSize * sizeof(long int));
-          for (int l = 0; l < PSize; l++){
-            newsol[l] = sol[l];
-          }
           insert(newsol, j, k);
           newCost = computeCost(newsol);
           if (newCost > cost){
@@ -158,7 +159,13 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
             for (int l = 0; l < PSize; l++){
               sol[l] = newsol[l];
             }
-            return newCost;
+            cost = newCost;
+          }
+          else{
+            // memcpy(newsol, sol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              newsol[l] = sol[l];
+            }
           }
         }
       }
@@ -255,9 +262,11 @@ int VND1(long int * sol, long int * newsol, int cost, int descent){
             for (int l = 0; l < PSize; l++){
               sol[l] = newsol[l];
             }
-            return newCost;
+            cost = newCost;
           }
-          exchange(newsol, j, k);
+          else{
+            exchange(newsol, j, k);
+          }
         }
       }
     }
@@ -273,9 +282,11 @@ int VND1(long int * sol, long int * newsol, int cost, int descent){
             for (int l = 0; l < PSize; l++){
               sol[l] = newsol[l];
             }
-            return newCost;
+            cost = newCost;
           }
-          exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+          else{
+            exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+          }
         }
       }
     }
@@ -284,10 +295,6 @@ int VND1(long int * sol, long int * newsol, int cost, int descent){
     for (int j = 0; j < PSize; j++){
       for (int k = 0; k < PSize; k++){
         if (j != k){
-          // memcpy(newsol, sol, PSize * sizeof(long int));
-          for (int l = 0; l < PSize; l++){
-            newsol[l] = sol[l];
-          }
           insert(newsol, j, k);
           newCost = computeCost(newsol);
           if (newCost > cost){
@@ -295,7 +302,13 @@ int VND1(long int * sol, long int * newsol, int cost, int descent){
             for (int l = 0; l < PSize; l++){
               sol[l] = newsol[l];
             }
-            return newCost;
+            cost = newCost;
+          }
+          else{
+            // memcpy(newsol, sol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              newsol[l] = sol[l];
+            }
           }
         }
       }
@@ -319,9 +332,11 @@ int VND2(long int * sol, long int * newsol, int cost, int descent){
             for (int l = 0; l < PSize; l++){
               sol[l] = newsol[l];
             }
-            return newCost;
+            cost = newCost;
           }
-          exchange(newsol, j, k);
+          else{
+            exchange(newsol, j, k);
+          } 
         }
       }
     }
@@ -337,9 +352,11 @@ int VND2(long int * sol, long int * newsol, int cost, int descent){
             for (int l = 0; l < PSize; l++){
               sol[l] = newsol[l];
             }
-            return newCost;
+            cost = newCost;
           }
-          exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+          else{
+            exchange(newsol, j, k); //If the neighbour is not better, we cancel the exchange
+          }
         }
       }
     }
@@ -348,10 +365,7 @@ int VND2(long int * sol, long int * newsol, int cost, int descent){
     for (int j = 0; j < PSize; j++){
       for (int k = 0; k < PSize; k++){
         if (j != k){
-          // memcpy(newsol, sol, PSize * sizeof(long int));
-          for (int l = 0; l < PSize; l++){
-            newsol[l] = sol[l];
-          }
+          
           insert(newsol, j, k);
           newCost = computeCost(newsol);
           if (newCost > cost){
@@ -359,7 +373,13 @@ int VND2(long int * sol, long int * newsol, int cost, int descent){
             for (int l = 0; l < PSize; l++){
               sol[l] = newsol[l];
             }
-            return newCost;
+            cost = newCost;
+          }
+          else{
+            // memcpy(newsol, sol, PSize * sizeof(long int));
+            for (int l = 0; l < PSize; l++){
+              newsol[l] = sol[l];
+            }
           }
         }
       }
