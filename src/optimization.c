@@ -53,7 +53,21 @@ long long int computeCost (long int *s ) {
 long long int computeCostFast(long int *s, int i, int j){
     // Use of properties to make it faster
     //Idea : take the two elements that are moved and compute the difference in cost of the two
-    return 0;
+    //Don't work
+    long long int delta = 0;
+    int row1 = 0, row2 = 0;
+    for (int k = 0; k < PSize; k++){ //Calculate initial cost
+        if (k > i){
+            row1 += CostMat[s[i]][s[k]];
+        }
+        if (k > j){
+            row2 += CostMat[s[j]][s[k]];
+        }
+    }
+    //Calculate the difference in cost
+    
+    delta += CostMat[s[i]][s[j]] - CostMat[s[j]][s[i]];
+    return delta;
 }
 
 void createRandomSolution(long int *s) {
