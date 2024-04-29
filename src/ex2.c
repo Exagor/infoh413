@@ -29,14 +29,14 @@
 #include "timer.h"
 #include "optimization.h"
 
-#define MAXITERATIONS 5000
-
 char *FileName = NULL;
 int improvFlag = 0; // 0 for first, 1 for best
 int permutFlag = 0; // 0 for exchange, 1 for transpose, 2 for insert
 int initFlag = 0; // 0 for random, 1 for CW
-int vndFlag = 0; // 1 for VND1, 2 for VND2
-int nbIterations = 0;
+int algoFlag = 0; // 0 for memetic, 2 for simulated annealing
+int nbGeneration = 0;
+int MAXTIME = 30; // Max 240s normally, but for test 30s
+int POPULATION = 100;
 
 void readOpts(int argc, char **argv) {
   /* Function that reads the options from the command line */
@@ -50,16 +50,16 @@ void readOpts(int argc, char **argv) {
     } else if (strcmp(argv[i], "--first") == 0) {
       improvFlag = 0;
       printf("Iterative improvement : First selected\n");
-    } else if (strcmp(argv[i], "--vnd1") == 0) {
-      vndFlag = 1;
+    } else if (strcmp(argv[i], "--meme") == 0) {
+      algoFlag = 0;
       improvFlag = 0;
-      initFlag = 1;
-      printf("Variable neighbourhood descending 1 selected\n");
-    } else if (strcmp(argv[i], "--vnd2") == 0) {
-      vndFlag = 2;
+      initFlag = 0;
+      printf("Memetic Algorithm selected\n");
+    } else if (strcmp(argv[i], "--sa") == 0) {
+      algoFlag = 1;
       improvFlag = 0;
-      initFlag = 1;
-      printf("Variable neighbourhood descending 2 selected\n");
+      initFlag = 0;
+      printf("Simulated annealing selected\n");
     } else if (strcmp(argv[i], "--exchange") == 0) {
       permutFlag = 0;
       printf("Permutation mode : Exchange selected\n");
@@ -69,12 +69,6 @@ void readOpts(int argc, char **argv) {
     } else if (strcmp(argv[i], "--insert") == 0) {
       permutFlag = 2;
       printf("Permutation mode : Insert selected\n");
-    } else if (strcmp(argv[i], "--random") == 0) {
-      initFlag = 0;
-      printf("Initial solution : Random selected\n");
-    } else if (strcmp(argv[i], "--cw") == 0) {
-      initFlag = 1;
-      printf("Initial solution : CW selected\n");
     } else {
       fprintf(stderr, "Option %s not managed.\n", argv[i]);
     }
@@ -127,106 +121,58 @@ int main (int argc, char **argv)
   /* starts time measurement */
   start_timers();
 
-  /* A solution is just a vector of int with the same size as the instance */
-  currentSolution = (long int *)malloc(PSize * sizeof(long int));
-
-  /* Create an initial solution. 
-     The only constraint is that it should always be a permutation */
-  if (initFlag == 0){
-    createRandomSolution(currentSolution);
-  }
-  else if (initFlag == 1){
-    createCWSolution(currentSolution);
-  }
-
-  /* Print solution */
-  //printf("Initial solution:\n");
-  //printSolution(currentSolution);
-
-  /* Compute cost of solution and print it */
-  cost = computeCost(currentSolution);
-  printf("Cost of this initial solution: %d\n\n", cost);
-
-  //Copy the solution into newSol
-  long int *newSol = (long int *)malloc(PSize * sizeof(long int));
-  for (int i = 0; i < PSize; i++){
-    newSol[i] = currentSolution[i];
-  }
-
-  newCost = cost;
-  int prevCost = cost;
   printf("Computing ... \n");
 
-  if (vndFlag==0){//Normal iterative improvement mode
-    for (int i = 1; i <= MAXITERATIONS; i++){ //Loop the number of iterations
-      // if (i % 100 == 0)
-        //printf("Iteration %d : %d\n", i, newCost);
-      nbIterations++;
-
-      // Use of first improvement algorithm
-      if (improvFlag == 0){
-        newCost = firstImprovement(currentSolution, newSol, newCost, permutFlag);
-        if (newCost == prevCost){ //Stop condition
-          break;
-        }
-      }
-      else if (improvFlag == 1){
-        newCost = bestImprovement(currentSolution, newSol, newCost, permutFlag);
-        if (newCost == prevCost){
-          break;
-        }
-      }
-
-      prevCost = newCost; //Actualize the previous cost
+  if (algoFlag==0){//memetic mode
+    //allocate memory for 2D array
+    long int **pop = (long int **)malloc(POPULATION * sizeof(long int *));
+    for (int i = 0; i < POPULATION; i++){
+      pop[i] = (long int *)malloc(PSize * sizeof(long int));
     }
-  }
-  else{//VND mode
-    for (int i = 1; i <= MAXITERATIONS; i++){
-      int descent = 0;
-      while (descent < 3){
-        if (vndFlag == 1){
-          newCost = VND1(currentSolution, newSol, newCost, descent);
-        }
-        else if (vndFlag == 2){
-          newCost = VND2(currentSolution, newSol, newCost, descent);
-        }
-        if (newCost > prevCost){
-          descent = 0;
-          prevCost = newCost;
-          nbIterations++;
-        }
-        else{
-          descent++;
-        }
-      }
-      if (newCost == prevCost){
-          break;
-        }
+    // Generate initial population
+    //TODO
+
+    //Repeat until timer is up
+    while(elapsed_time(VIRTUAL) < MAXTIME){
+      //Select parents
+      //TODO
+
+      //Crossover
+      //TODO
+
+      //Mutation
+      //TODO
+
+      //Local search
+      //TODO
+
+      //Select survivors
+      //TODO
+
+      //Update best solution
+      //TODO
+
+      nbGeneration++;
     }
+    
+    //free
+    for(int i = 0; i < POPULATION; i++) {
+      free(pop[i]);
+    }
+    free(pop);
   }
+  
   /* Recompute cost of solution */
   /* There are some more efficient way to do this, instead of recomputing everything... */
   printf("Cost of the solution after applying the algo: %d\n", newCost);
 
-  if (newCost == cost)
-    printf("Second solution is as good as first one\n");
-  else if (newCost > cost)
-    printf("Second solution is better than first one\n");
-  else
-    printf("Second solution is worse than first one\n");
-
-  if (nbIterations == MAXITERATIONS)
-    printf("Maximum number of iterations reached (%d)\n",MAXITERATIONS);
-  else
-    printf("Number of iterations to obtain (local) maxima : %d\n", nbIterations);
+  printf("Number of generations : %d\n", nbGeneration);
   double timeTaken = elapsed_time(VIRTUAL);
   printf("Time elapsed since we started the timer: %g\n\n", timeTaken);
 
   /* Save the results in a file*/
-  statsToFile(FileName, improvFlag, permutFlag, initFlag, vndFlag, timeTaken, newCost, nbIterations);
+  statsToFile(FileName, improvFlag, permutFlag, initFlag, algoFlag, timeTaken, newCost, nbGeneration);
   /* Free memory */
-  free(currentSolution);
-  free(newSol);
 
   return 0;
 }

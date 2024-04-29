@@ -410,3 +410,46 @@ int VND2(long int * sol, long int * newsol, int cost, int descent){
   return cost;
 }
 
+void generateInitPop(long int **pop, int popSize){
+  for (int i = 0; i < popSize; i++){ 
+    //TODO : add steps like in the paper
+    createRandomSolution(pop[i]);
+  }
+}
+
+void crossover(long int *parent1, long int *parent2, long int *child1, long int *child2){
+  //Crossover operator
+  // int cut = rand() % PSize;
+  // for (int i = 0; i < cut; i++){
+  //   child1[i] = parent1[i];
+  //   child2[i] = parent2[i];
+  // }
+  // for (int i = cut; i < PSize; i++){
+  //   child1[i] = parent2[i];
+  //   child2[i] = parent1[i];
+  // }
+}
+
+void mutation(long int *sol){
+  //Mutation operator
+  int i = rand() % PSize;
+  int j = rand() % PSize;
+  exchange(sol, i, j);
+}
+
+void selectBest(long int **pop, int popSize, long int *bestSol){
+  //Select the best solution in the population
+  // int bestCost = computeCost(pop[0]);
+  // int newCost;
+  // for (int i = 1; i < popSize; i++){
+  //   newCost = computeCost(pop[i]);
+  //   if (newCost > bestCost){
+  //     bestCost = newCost;
+  //     memcpy(bestSol, pop[i], PSize * sizeof(long int));
+  //     for (int l = 0; l < PSize; l++){
+  //       bestSol[l] = pop[i][l];
+  //     }
+  //   }
+  // }
+}
+
