@@ -35,8 +35,8 @@ int permutFlag = 0; // 0 for exchange, 1 for transpose, 2 for insert
 int initFlag = 0; // 0 for random, 1 for CW
 int algoFlag = 0; // 0 for memetic, 2 for simulated annealing
 int nbGeneration = 0;
-int MAXTIME = 30; // Max 240s normally, but for test 30s
-int POPULATION = 100;
+int MAXTIME = 5; // Max 240s normally, but for test 5s
+int POPULATION = 40;
 
 void readOpts(int argc, char **argv) {
   /* Function that reads the options from the command line */
@@ -90,8 +90,7 @@ void printSolution(long int *s){
 int main (int argc, char **argv) 
 {
   long int i,j;
-  long int *currentSolution;
-  int cost, newCost;
+  int cost;
 
   /* Do not buffer output */
   setbuf(stdout,NULL);
@@ -130,7 +129,7 @@ int main (int argc, char **argv)
       pop[i] = (long int *)malloc(PSize * sizeof(long int));
     }
     // Generate initial population
-    //TODO
+    generateInitPop(pop, POPULATION);
 
     //Repeat until timer is up
     while(elapsed_time(VIRTUAL) < MAXTIME){
@@ -155,6 +154,8 @@ int main (int argc, char **argv)
       nbGeneration++;
     }
     
+    printSolution(pop[0]);
+
     //free
     for(int i = 0; i < POPULATION; i++) {
       free(pop[i]);
@@ -164,14 +165,14 @@ int main (int argc, char **argv)
   
   /* Recompute cost of solution */
   /* There are some more efficient way to do this, instead of recomputing everything... */
-  printf("Cost of the solution after applying the algo: %d\n", newCost);
+  printf("Cost of the solution after applying the algo: %d\n", cost);
 
   printf("Number of generations : %d\n", nbGeneration);
   double timeTaken = elapsed_time(VIRTUAL);
   printf("Time elapsed since we started the timer: %g\n\n", timeTaken);
 
   /* Save the results in a file*/
-  statsToFile(FileName, improvFlag, permutFlag, initFlag, algoFlag, timeTaken, newCost, nbGeneration);
+  statsToFile2(FileName, algoFlag, timeTaken, cost, nbGeneration);
   /* Free memory */
 
   return 0;

@@ -40,7 +40,8 @@ extern long int * generate_random_vector(long int dim );
 void exchange(long int* vector, int i, int j);
 void insert(long int* vector, int i, int j);
 void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, int vndFlag, double timeTaken, int cost, int iterations);
-
+void statsToFile2(char* FileName, int algoFlag, double timeTaken, int cost, int iterations);
+void statForPlot(char* Filename);
 
 /* constants for a pseudo-random number generator, taken from
    Numerical Recipes in C book --- never trust the standard C random

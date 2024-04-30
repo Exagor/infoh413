@@ -410,10 +410,36 @@ int VND2(long int * sol, long int * newsol, int cost, int descent){
   return cost;
 }
 
+void localSearch(long int* currentSolution){
+  // Local search algorithm based on the VND2
+  long int* newSol = (long int*) malloc(PSize * sizeof(long int));
+  for (int i = 0; i < PSize; i++){//copy the current solution in new solution
+    newSol[i] = currentSolution[i];
+  }
+  int newCost = computeCost(currentSolution);
+  int prevCost = newCost;
+  for (int i = 1; i <= 500; i++){
+      int descent = 0;
+      while (descent < 3){
+        newCost = VND2(currentSolution, newSol, newCost, descent);
+        if (newCost > prevCost){
+          descent = 0;
+          prevCost = newCost;
+        }
+        else{
+          descent++;
+        }
+      }
+      if (newCost == prevCost){
+          break;
+        }
+    }
+}
+
 void generateInitPop(long int **pop, int popSize){
   for (int i = 0; i < popSize; i++){ 
-    //TODO : add steps like in the paper
     createRandomSolution(pop[i]);
+    localSearch(pop[i]);
   }
 }
 

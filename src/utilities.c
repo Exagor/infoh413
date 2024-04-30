@@ -174,3 +174,32 @@ void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, i
   printf("Successfully written to file\n");
   fclose(file);
 }
+
+void statsToFile2(char* FileName, int algoFlag, double timeTaken, int cost, int iterations){
+  /*Function that sends stats to a file */
+  FILE *file;
+
+  file = fopen("raw_results/results2.csv", "a");
+  if (file == NULL) {
+    fprintf(stderr, "Error opening file\n");
+    return;
+  }
+
+  const char* exactFileName = strrchr(FileName, '/');
+  if (exactFileName != NULL) {
+    exactFileName++; // Move past the '/'
+  } else {
+    exactFileName = FileName; // No '/' found, use the whole FileName
+  }
+
+  //Format the file
+  const char *algoStr = (algoFlag == 0) ? "memetic" : "SA";
+  //save the file
+  fprintf(file,"%s,%ld,%s,%lf,%d,%i\n",exactFileName ,PSize, algoStr, timeTaken, cost, iterations);
+  printf("Successfully written to file\n");
+  fclose(file);
+}
+
+void statForPlot(char* Filename){
+
+}
