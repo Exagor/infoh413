@@ -31,8 +31,8 @@ int firstImprovement(long int * sol, long int * newsol, int cost, int permutFlag
 int bestImprovement(long int * sol, long int * newsol, int cost, int permutFlag);
 int VND1(long int * sol, long int * newsol, int cost, int descent);
 int VND2(long int * sol, long int * newsol, int cost, int descent);
-void localSearch(long int* currentSolution);
-void generateInitPop(long int **pop, int popSize);
+int localSearch(long int* currentSolution);
+void generateInitPop(long int **pop,int* costPop, int popSize);
 void crossover(long int *parent1, long int *parent2, long int *child1, long int *child2);
 void mutation(long int *sol);
 void selectBest(long int **pop, int popSize, long int *bestSol);

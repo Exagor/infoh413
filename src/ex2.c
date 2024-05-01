@@ -123,13 +123,20 @@ int main (int argc, char **argv)
   printf("Computing ... \n");
 
   if (algoFlag==0){//memetic mode
-    //allocate memory for 2D array
+    int maxCost = 0;
+    int maxInd = 0;
+    //allocate memory for 2D array stocking population
     long int **pop = (long int **)malloc(POPULATION * sizeof(long int *));
     for (int i = 0; i < POPULATION; i++){
       pop[i] = (long int *)malloc(PSize * sizeof(long int));
     }
+    //Allocate memory for the costs and fill with 0's
+    int *costPop = (int *)malloc(POPULATION * sizeof(int));
+    for (int i = 0; i < POPULATION; i++){
+      costPop[i] = 0;
+    }
     // Generate initial population
-    generateInitPop(pop, POPULATION);
+    generateInitPop(pop,costPop, POPULATION);
 
     //Repeat until timer is up
     while(elapsed_time(VIRTUAL) < MAXTIME){
@@ -142,10 +149,7 @@ int main (int argc, char **argv)
       //Mutation
       //TODO
 
-      //Local search
-      //TODO
-
-      //Select survivors
+      //Select best
       //TODO
 
       //Update best solution
@@ -154,13 +158,23 @@ int main (int argc, char **argv)
       nbGeneration++;
     }
     
-    printSolution(pop[0]);
+
+    for(int i = 1; i < POPULATION; i++) {
+      if(costPop[i] > maxCost) {
+          maxCost = costPop[i];
+          maxInd = i;
+      }
+    }
+
+    printf("Max cost: %d, Index: %d\n", maxCost, maxInd);
+    
 
     //free
     for(int i = 0; i < POPULATION; i++) {
       free(pop[i]);
     }
     free(pop);
+    free(costPop);
   }
   
   /* Recompute cost of solution */

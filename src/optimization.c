@@ -410,7 +410,7 @@ int VND2(long int * sol, long int * newsol, int cost, int descent){
   return cost;
 }
 
-void localSearch(long int* currentSolution){
+int localSearch(long int* currentSolution){
   // Local search algorithm based on the VND2
   long int* newSol = (long int*) malloc(PSize * sizeof(long int));
   for (int i = 0; i < PSize; i++){//copy the current solution in new solution
@@ -434,12 +434,14 @@ void localSearch(long int* currentSolution){
           break;
         }
     }
+  free(newSol);
+  return newCost;
 }
 
-void generateInitPop(long int **pop, int popSize){
+void generateInitPop(long int **pop, int* costPop, int popSize){
   for (int i = 0; i < popSize; i++){ 
     createRandomSolution(pop[i]);
-    localSearch(pop[i]);
+    costPop[i] = localSearch(pop[i]);
   }
 }
 
