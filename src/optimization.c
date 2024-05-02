@@ -448,11 +448,10 @@ void generateInitPop(long int **pop, int* costPop, int popSize){
 
 void crossover(long int **pop, int popNb, long int* offspring){
   int a,b,par,indB;
-  //Reset offspringwith values to detect elements not filled
+  //Reset offspring with values to detect elements not filled
   for (int i = 0; i < PSize; i++){
     offspring[i] = -1;
   }
-  printf("1\n");
   //Crossover operator (CX operator)
   int parent1=randInt(0, popNb-1);
   int parent2=0;
@@ -465,7 +464,6 @@ void crossover(long int **pop, int popNb, long int* offspring){
       offspring[i] = pop[parent1][i];
     }
   }
-  printf("2\n");
   for (int i = 0; i < PSize; i++){
     if (offspring[i] == -1){
       par = randInt(0,1); //Select random parent
@@ -499,28 +497,33 @@ void crossover(long int **pop, int popNb, long int* offspring){
   } 
 }
 
-void mutation(long int ** pop, int popSize, int *costPop){
+void mutation(long int ** pop, int popSize, long int* offspring){
+  int mutationNb = 15; //Equivalent to 10% mutation
   //Mutation operator
   int ind = randInt(0, popSize-1); //choose random individual
-  // Mutation by exchange
-  int a = randInt(0, PSize-1);
-  int b = randInt(0, PSize-1);
-  exchange(pop[ind], a, b);
-  costPop[ind] = localSearch(pop[ind]);
+  for(int i = 0; i < PSize; i++){ //Copy the individual
+    offspring[i] = pop[ind][i];
+  }
+  for(int i = 0; i < mutationNb; i++){
+    // Mutation by exchange
+    int a = randInt(0, PSize-1);
+    int b = randInt(0, PSize-1);
+    exchange(offspring, a, b);
+  }
 }
 
-void selectBestPop(long int** pop, int* costPop, int popSize, long int** offsprings, int* costOff, int nbCrossover){
+void selectBestPop(long int** pop, int* costPop, int popSize, long int** offsprings, int* costOff, int nbCrossover, int nbMutation){
   //Select the best solution in the population and offsprings
   long int** newPop = (long int**) malloc(popSize * sizeof(long int*));
   for(int i = 0; i < popSize; i++){
     newPop[i] = (long int*) malloc(PSize * sizeof(long int));
   }
 
-  // Sort the costPop array in ascending order
+  // Sort the costPop array in descending order
   for (int i = 0; i < popSize; i++) {
     int minIndex = i;
     for (int j = i + 1; j < popSize; j++) {
-      if (costPop[j] < costPop[minIndex]) {
+      if (costPop[j] > costPop[minIndex]) {
         minIndex = j;
       }
     }
@@ -533,12 +536,12 @@ void selectBestPop(long int** pop, int* costPop, int popSize, long int** offspri
     pop[i] = pop[minIndex];
     pop[minIndex] = tempInd;
   }
-  printf("sort costPop\n");
-  //Sort the costOff array in ascending order
-  for (int i = 0; i < nbCrossover; i++) {
+
+  //Sort the costOff array in descending order
+  for (int i = 0; i < (nbCrossover+nbMutation); i++) {
     int minIndex = i;
-    for (int j = i + 1; j < nbCrossover; j++) {
-      if (costOff[j] < costOff[minIndex]) {
+    for (int j = i + 1; j < nbCrossover+nbMutation; j++) {
+      if (costOff[j] > costOff[minIndex]) {
         minIndex = j;
       }
     }
@@ -551,26 +554,27 @@ void selectBestPop(long int** pop, int* costPop, int popSize, long int** offspri
     offsprings[i] = offsprings[minIndex];
     offsprings[minIndex] = tempInd;
   }
-  printf("sort costOff\n");
+
   // Add the best individuals from pop and offsprings to newPop
-  for (int i = 0; i < popSize - nbCrossover; i++) { //Fill first with best pop
+  for (int i = 0; i < popSize - (nbCrossover+nbMutation); i++) { //Fill first with best pop
     for (int j = 0; j < PSize; j++){
       newPop[i][j] = pop[i][j];
     }
   }
   int j = 0;
-  for (int i = 0; i < nbCrossover; i++) { //Add the best offsprings or pop
-    if (costPop[popSize - nbCrossover + i] < costOff[j]){
+  int g = 0;
+  for (int i = 0; i < (nbCrossover+nbMutation); i++) { //Add the best offsprings or pop
+    if (costPop[popSize - (nbCrossover+nbMutation) + g] < costOff[j]){
       for(int k = 0; k < PSize; k++){
-        newPop[popSize - nbCrossover + i][k] = offsprings[j][k];
+        newPop[popSize - (nbCrossover+nbMutation) + i][k] = offsprings[j][k]; //Add offspring
       }
       j++;
-      i--;
     }
     else{
       for(int k = 0; k < PSize; k++){
-        newPop[popSize - nbCrossover + i][k] = pop[popSize - nbCrossover + i][k];
+        newPop[popSize - (nbCrossover+nbMutation) + i][k] = pop[popSize - (nbCrossover+nbMutation) + g][k];//Add pop
       }
+      g++;
     }
   }
   // Copy newPop back to pop array
@@ -590,3 +594,19 @@ void selectBestPop(long int** pop, int* costPop, int popSize, long int** offspri
   free(newPop);
 }
 
+int selectBest(long int** pop, int* costPop, int popNb, long int* currentSolution){
+  int maxCost = 0;
+  int maxInd = 0;
+
+  for(int i = 0; i < popNb; i++) {//Find best solution
+      if(costPop[i] > maxCost) {
+          maxCost = costPop[i];
+          maxInd = i;
+      }
+    }
+    //Copy the best solution into currentSolution
+    for (int i = 0; i < PSize; i++){
+      currentSolution[i] = pop[maxInd][i];
+    }
+    return maxCost;
+}

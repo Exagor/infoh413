@@ -33,11 +33,11 @@ char *FileName = NULL;
 int improvFlag = 0; // 0 for first, 1 for best
 int permutFlag = 0; // 0 for exchange, 1 for transpose, 2 for insert
 int initFlag = 0; // 0 for random, 1 for CW
-int algoFlag = 0; // 0 for memetic, 2 for simulated annealing
+int algoFlag = 0; // 0 for memetic, 1 for ILS
 int nbGeneration = 0;
-int MAXTIME = 100; // Max 240s normally, but for test 5s
-int POPULATION = 25;
-int nbCrossover = 12; //Number of offsprings
+int MAXTIME = 300; // Max 250s normally, but for test 60s
+int POPULATION = 30;
+int nbCrossover = 15; //Number of offsprings
 int nbMutation = 5; //Number of individuals to mutate nbMutation < POPULATION
 
 void readOpts(int argc, char **argv) {
@@ -128,8 +128,6 @@ int main (int argc, char **argv)
   currentSolution = (long int *)malloc(PSize * sizeof(long int)); //Initialize current sol
 
   if (algoFlag==0){//memetic mode
-    int maxCost = 0;
-    int maxInd = 0;
 
     //allocate memory for 2D array stocking population
     long int **pop = (long int **)malloc(POPULATION * sizeof(long int *));
@@ -144,70 +142,57 @@ int main (int argc, char **argv)
     }
 
     //Allocate memory for the offsprings and costs
-    long int **offsprings = (long int **)malloc(nbCrossover * sizeof(long int *));
-    for (int i = 0; i < nbCrossover; i++){
+    long int **offsprings = (long int **)malloc((nbCrossover+nbMutation) * sizeof(long int *));
+    for (int i = 0; i < (nbCrossover+nbMutation); i++){
       offsprings[i] = (long int *)malloc(PSize * sizeof(long int));
       // createRandomSolution(offsprings[i]);
     }
-    int *costOff = (int *)malloc(nbCrossover * sizeof(int));
-    for (int i = 0; i < nbCrossover; i++){
+    int *costOff = (int *)malloc((nbCrossover+nbMutation) * sizeof(int));
+    for (int i = 0; i < (nbCrossover+nbMutation); i++){
       costOff[i] = 0;
     }
     
     // Generate initial population
     generateInitPop(pop,costPop, POPULATION);
     printf("Initial population generated\n");
+
     //Repeat until timer is up
     while(elapsed_time(VIRTUAL) < MAXTIME){
       printf("Generation %d\n", nbGeneration);
       //Crossover
       for (int i = 0; i < nbCrossover; i++){
         crossover(pop, POPULATION, offsprings[i]); //Gives offspring
-        printf("crossover terminated\n");
-        printSolution(offsprings[i]);
-        costOff[i]=localSearch(offsprings[i]);
+        costOff[i] = localSearch(offsprings[i]);
       }
+
       //Mutation
       for(int i = 0; i < nbMutation; i++){
-        mutation(pop,POPULATION, costPop);
+        mutation(pop,POPULATION, offsprings[(nbCrossover)+i]);
+        costOff[(nbCrossover)+i] = localSearch(offsprings[(nbCrossover)+i]);
       }
 
       //Select best
-      selectBestPop(pop, costPop, POPULATION, offsprings, costOff, nbCrossover);
+      selectBestPop(pop, costPop, POPULATION, offsprings, costOff, nbCrossover, nbMutation);
 
       //Update best solution
-      //selectBest
-
+      cost = selectBest(pop, costPop, POPULATION, currentSolution);
+      printf("Best cost %d at generation %d\n", cost, nbGeneration);
       nbGeneration++;
     }
-
-    for(int i = 1; i < POPULATION; i++) {//Find best solution
-      if(costPop[i] > maxCost) {
-          maxCost = costPop[i];
-          maxInd = i;
-      }
-    }
-    //Copy the best solution into currentSolution
-    for (int i = 0; i < PSize; i++){
-      currentSolution[i] = pop[maxInd][i];
-    }
-    cost = maxCost;
-    printf("Max cost: %d, Index: %d\n", maxCost, maxInd);
-    
+    printSolution(currentSolution);
     //free
     for(int i = 0; i < POPULATION; i++) {
       free(pop[i]);
     }
     free(pop);
     free(costPop);
-    for(int i = 0; i < nbCrossover; i++) {
+    for(int i = 0; i < (nbCrossover+nbMutation); i++) {
       free(offsprings[i]);
     }
     free(offsprings);
     free(costOff);
   }
   
-  /* Recompute cost of solution */
   /* There are some more efficient way to do this, instead of recomputing everything... */
   printf("Cost of the solution after applying the algo: %d\n", cost);
 

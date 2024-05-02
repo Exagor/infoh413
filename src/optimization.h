@@ -34,7 +34,8 @@ int VND2(long int * sol, long int * newsol, int cost, int descent);
 int localSearch(long int* currentSolution);
 void generateInitPop(long int **pop,int* costPop, int popSize);
 void crossover(long int **pop, int popNb, long int *offspring);
-void mutation(long int ** pop, int popSize, int *costPop);
-void selectBestPop(long int** pop, int* costPop, int popSize, long int** offsprings, int* costOff, int nbCrossover);
+void mutation(long int ** pop, int popSize, long int* offspring);
+void selectBestPop(long int** pop, int* costPop, int popSize, long int** offsprings, int* costOff, int nbCrossover, int nbMutation);
+int selectBest(long int** pop, int* costPop, int popNb, long int* currentSolution);
 
 #endif
