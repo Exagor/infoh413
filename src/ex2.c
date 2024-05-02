@@ -35,7 +35,7 @@ int permutFlag = 0; // 0 for exchange, 1 for transpose, 2 for insert
 int initFlag = 0; // 0 for random, 1 for CW
 int algoFlag = 0; // 0 for memetic, 2 for simulated annealing
 int nbGeneration = 0;
-int MAXTIME = 60; // Max 240s normally, but for test 5s
+int MAXTIME = 100; // Max 240s normally, but for test 5s
 int POPULATION = 25;
 int nbCrossover = 12; //Number of offsprings
 int nbMutation = 5; //Number of individuals to mutate nbMutation < POPULATION
@@ -147,7 +147,7 @@ int main (int argc, char **argv)
     long int **offsprings = (long int **)malloc(nbCrossover * sizeof(long int *));
     for (int i = 0; i < nbCrossover; i++){
       offsprings[i] = (long int *)malloc(PSize * sizeof(long int));
-      createRandomSolution(offsprings[i]);
+      // createRandomSolution(offsprings[i]);
     }
     int *costOff = (int *)malloc(nbCrossover * sizeof(int));
     for (int i = 0; i < nbCrossover; i++){
@@ -156,12 +156,15 @@ int main (int argc, char **argv)
     
     // Generate initial population
     generateInitPop(pop,costPop, POPULATION);
-
+    printf("Initial population generated\n");
     //Repeat until timer is up
     while(elapsed_time(VIRTUAL) < MAXTIME){
+      printf("Generation %d\n", nbGeneration);
       //Crossover
       for (int i = 0; i < nbCrossover; i++){
-        crossover(pop, POPULATION, offsprings[i]); //Gives offspring 
+        crossover(pop, POPULATION, offsprings[i]); //Gives offspring
+        printf("crossover terminated\n");
+        printSolution(offsprings[i]);
         costOff[i]=localSearch(offsprings[i]);
       }
       //Mutation
@@ -170,13 +173,14 @@ int main (int argc, char **argv)
       }
 
       //Select best
-      //TODO
+      selectBestPop(pop, costPop, POPULATION, offsprings, costOff, nbCrossover);
 
       //Update best solution
-      //TODO
+      //selectBest
 
       nbGeneration++;
     }
+
     for(int i = 1; i < POPULATION; i++) {//Find best solution
       if(costPop[i] > maxCost) {
           maxCost = costPop[i];

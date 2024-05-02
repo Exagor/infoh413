@@ -35,6 +35,6 @@ int localSearch(long int* currentSolution);
 void generateInitPop(long int **pop,int* costPop, int popSize);
 void crossover(long int **pop, int popNb, long int *offspring);
 void mutation(long int ** pop, int popSize, int *costPop);
-void selectBest(long int **pop, int popSize, long int *bestSol);
+void selectBestPop(long int** pop, int* costPop, int popSize, long int** offsprings, int* costOff, int nbCrossover);
 
 #endif

@@ -86,7 +86,7 @@ void createCWSolution(long int *s){
   /*Search for the lines with the greatest impact on the sum and assemble the solution*/
   long int sum, maxSum;
   int maxIndex;
-  int *costRow = malloc(PSize * sizeof(int));
+  int *costRow = (int*)malloc(PSize * sizeof(int));
 
   // Calculate the cost of each row and add them in costRow in the order
   for (int i = 0; i < PSize; i++) {
@@ -452,6 +452,7 @@ void crossover(long int **pop, int popNb, long int* offspring){
   for (int i = 0; i < PSize; i++){
     offspring[i] = -1;
   }
+  printf("1\n");
   //Crossover operator (CX operator)
   int parent1=randInt(0, popNb-1);
   int parent2=0;
@@ -464,6 +465,7 @@ void crossover(long int **pop, int popNb, long int* offspring){
       offspring[i] = pop[parent1][i];
     }
   }
+  printf("2\n");
   for (int i = 0; i < PSize; i++){
     if (offspring[i] == -1){
       par = randInt(0,1); //Select random parent
@@ -507,19 +509,84 @@ void mutation(long int ** pop, int popSize, int *costPop){
   costPop[ind] = localSearch(pop[ind]);
 }
 
-void selectBest(long int **pop, int popSize, long int *bestSol){
-  //Select the best solution in the population
-  // int bestCost = computeCost(pop[0]);
-  // int newCost;
-  // for (int i = 1; i < popSize; i++){
-  //   newCost = computeCost(pop[i]);
-  //   if (newCost > bestCost){
-  //     bestCost = newCost;
-  //     memcpy(bestSol, pop[i], PSize * sizeof(long int));
-  //     for (int l = 0; l < PSize; l++){
-  //       bestSol[l] = pop[i][l];
-  //     }
-  //   }
-  // }
+void selectBestPop(long int** pop, int* costPop, int popSize, long int** offsprings, int* costOff, int nbCrossover){
+  //Select the best solution in the population and offsprings
+  long int** newPop = (long int**) malloc(popSize * sizeof(long int*));
+  for(int i = 0; i < popSize; i++){
+    newPop[i] = (long int*) malloc(PSize * sizeof(long int));
+  }
+
+  // Sort the costPop array in ascending order
+  for (int i = 0; i < popSize; i++) {
+    int minIndex = i;
+    for (int j = i + 1; j < popSize; j++) {
+      if (costPop[j] < costPop[minIndex]) {
+        minIndex = j;
+      }
+    }
+    // Swap the current element with the minimum element
+    int tempCost = costPop[i];
+    costPop[i] = costPop[minIndex];
+    costPop[minIndex] = tempCost;
+    // Swap the corresponding individual in pop array
+    long int* tempInd = pop[i];
+    pop[i] = pop[minIndex];
+    pop[minIndex] = tempInd;
+  }
+  printf("sort costPop\n");
+  //Sort the costOff array in ascending order
+  for (int i = 0; i < nbCrossover; i++) {
+    int minIndex = i;
+    for (int j = i + 1; j < nbCrossover; j++) {
+      if (costOff[j] < costOff[minIndex]) {
+        minIndex = j;
+      }
+    }
+    // Swap the current element with the minimum element
+    int tempCost = costOff[i];
+    costOff[i] = costOff[minIndex];
+    costOff[minIndex] = tempCost;
+    // Swap the corresponding individual in offsprings array
+    long int* tempInd = offsprings[i];
+    offsprings[i] = offsprings[minIndex];
+    offsprings[minIndex] = tempInd;
+  }
+  printf("sort costOff\n");
+  // Add the best individuals from pop and offsprings to newPop
+  for (int i = 0; i < popSize - nbCrossover; i++) { //Fill first with best pop
+    for (int j = 0; j < PSize; j++){
+      newPop[i][j] = pop[i][j];
+    }
+  }
+  int j = 0;
+  for (int i = 0; i < nbCrossover; i++) { //Add the best offsprings or pop
+    if (costPop[popSize - nbCrossover + i] < costOff[j]){
+      for(int k = 0; k < PSize; k++){
+        newPop[popSize - nbCrossover + i][k] = offsprings[j][k];
+      }
+      j++;
+      i--;
+    }
+    else{
+      for(int k = 0; k < PSize; k++){
+        newPop[popSize - nbCrossover + i][k] = pop[popSize - nbCrossover + i][k];
+      }
+    }
+  }
+  // Copy newPop back to pop array
+  for (int i = 0; i < popSize; i++) {
+    for (int j = 0; j < PSize; j++){
+      pop[i][j] = newPop[i][j];
+    }
+  }
+  // Update costPop array with the costs of the new individuals
+  for (int i = 0; i < popSize; i++) {
+    costPop[i] = localSearch(pop[i]);
+  }
+  //free
+  for(int i = 0; i < popSize; i++) {
+    free(newPop[i]);
+  }
+  free(newPop);
 }
 
