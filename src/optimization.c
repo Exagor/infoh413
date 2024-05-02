@@ -497,11 +497,14 @@ void crossover(long int **pop, int popNb, long int* offspring){
   } 
 }
 
-void mutation(long int *sol){
+void mutation(long int ** pop, int popSize, int *costPop){
   //Mutation operator
-  int i = rand() % PSize;
-  int j = rand() % PSize;
-  exchange(sol, i, j);
+  int ind = randInt(0, popSize-1); //choose random individual
+  // Mutation by exchange
+  int a = randInt(0, PSize-1);
+  int b = randInt(0, PSize-1);
+  exchange(pop[ind], a, b);
+  costPop[ind] = localSearch(pop[ind]);
 }
 
 void selectBest(long int **pop, int popSize, long int *bestSol){

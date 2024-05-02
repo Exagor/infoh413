@@ -38,7 +38,7 @@ int nbGeneration = 0;
 int MAXTIME = 60; // Max 240s normally, but for test 5s
 int POPULATION = 25;
 int nbCrossover = 12; //Number of offsprings
-int nbMutation = 5; //Number of offspring to mutate nbMutation < nbCrossovers
+int nbMutation = 5; //Number of individuals to mutate nbMutation < POPULATION
 
 void readOpts(int argc, char **argv) {
   /* Function that reads the options from the command line */
@@ -164,9 +164,10 @@ int main (int argc, char **argv)
         crossover(pop, POPULATION, offsprings[i]); //Gives offspring 
         costOff[i]=localSearch(offsprings[i]);
       }
-      printSolution(offsprings[0]);
       //Mutation
-      //TODO
+      for(int i = 0; i < nbMutation; i++){
+        mutation(pop,POPULATION, costPop);
+      }
 
       //Select best
       //TODO
