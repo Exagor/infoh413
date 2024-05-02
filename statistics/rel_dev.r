@@ -4,7 +4,7 @@
 best <- read.table("best_known/best_known.txt", header = FALSE, col.names = c("instance", "cost"))
 
 # Read values from the file "results.csv"
-results <- read.csv("raw_results/results.csv", header = TRUE)
+results <- read.csv("raw_results/results2.csv", header = TRUE)
 
 # Calculate the relative percentage deviation
 common_indices <- match(results$instance, best$instance)

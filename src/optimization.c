@@ -567,12 +567,14 @@ void selectBestPop(long int** pop, int* costPop, int popSize, long int** offspri
     if (costPop[popSize - (nbCrossover+nbMutation) + g] < costOff[j]){
       for(int k = 0; k < PSize; k++){
         newPop[popSize - (nbCrossover+nbMutation) + i][k] = offsprings[j][k]; //Add offspring
+        // costPop[popSize - (nbCrossover+nbMutation) + i] = costOff[j]; //Add cost
       }
       j++;
     }
     else{
       for(int k = 0; k < PSize; k++){
         newPop[popSize - (nbCrossover+nbMutation) + i][k] = pop[popSize - (nbCrossover+nbMutation) + g][k];//Add pop
+        // costPop[popSize - (nbCrossover+nbMutation) + i] = costPop[popSize - (nbCrossover+nbMutation) + g]; //Add cost
       }
       g++;
     }

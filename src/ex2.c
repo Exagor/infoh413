@@ -36,8 +36,8 @@ int initFlag = 0; // 0 for random, 1 for CW
 int algoFlag = 0; // 0 for memetic, 1 for ILS
 int nbGeneration = 0;
 int MAXTIME = 300; // Max 250s normally, but for test 60s
-int POPULATION = 30;
-int nbCrossover = 15; //Number of offsprings
+int POPULATION = 25;
+int nbCrossover = 12; //Number of offsprings
 int nbMutation = 5; //Number of individuals to mutate nbMutation < POPULATION
 
 void readOpts(int argc, char **argv) {
@@ -179,7 +179,7 @@ int main (int argc, char **argv)
       printf("Best cost %d at generation %d\n", cost, nbGeneration);
       nbGeneration++;
     }
-    printSolution(currentSolution);
+
     //free
     for(int i = 0; i < POPULATION; i++) {
       free(pop[i]);
