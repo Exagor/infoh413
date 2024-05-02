@@ -445,17 +445,56 @@ void generateInitPop(long int **pop, int* costPop, int popSize){
   }
 }
 
-void crossover(long int *parent1, long int *parent2, long int *child1, long int *child2){
-  //Crossover operator
-  // int cut = rand() % PSize;
-  // for (int i = 0; i < cut; i++){
-  //   child1[i] = parent1[i];
-  //   child2[i] = parent2[i];
-  // }
-  // for (int i = cut; i < PSize; i++){
-  //   child1[i] = parent2[i];
-  //   child2[i] = parent1[i];
-  // }
+
+void crossover(long int **pop, int popNb, long int* offspring){
+  int a,b,par,indB;
+  //Reset offspringwith values to detect elements not filled
+  for (int i = 0; i < PSize; i++){
+    offspring[i] = -1;
+  }
+  //Crossover operator (CX operator)
+  int parent1=randInt(0, popNb-1);
+  int parent2=0;
+  while(parent1==parent2){
+    parent2=randInt(0, popNb-1);
+  }
+  //Keep elements in common
+  for (int i = 0; i < PSize; i++){
+    if (pop[parent1][i] == pop[parent2][i]){
+      offspring[i] = pop[parent1][i];
+    }
+  }
+  for (int i = 0; i < PSize; i++){
+    if (offspring[i] == -1){
+      par = randInt(0,1); //Select random parent
+      if (par == 0){
+        a=pop[parent1][i];
+        b=pop[parent2][i];
+        offspring[i] = a;
+        indB = 0;
+        while (indB < PSize){
+          if (pop[parent1][indB] == b){
+            offspring[indB] = b;
+            break;
+          }
+          indB++;
+        }
+      }
+      else{
+        a=pop[parent2][i];
+        b=pop[parent1][i];
+        offspring[i] = a;
+        indB = 0;
+        while (indB < PSize){
+          if (pop[parent1][indB] == b){
+            offspring[indB] = b;
+            break;
+          }
+          indB++;
+        }
+      }
+    }
+  } 
 }
 
 void mutation(long int *sol){

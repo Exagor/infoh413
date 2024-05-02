@@ -1,3 +1,10 @@
 instance, size, algorithm, time, cost, iterations
 N-be75eec_150,150,memetic,80.478853,0,0
 N-be75eec_150,150,memetic,64.303221,0,0
+N-be75eec_150,150,memetic,38.934198,0,0
+N-be75eec_150,150,memetic,40.696156,3434228,0
+N-be75eec_150,150,memetic,39.736377,3434228,0
+N-be75eec_150,150,memetic,60.000243,3429792,55696
+N-be75eec_150,150,memetic,61.385605,3429792,3
+N-be75eec_150,150,memetic,60.102608,3429792,8
+N-be75eec_150,150,memetic,61.722417,3429792,8

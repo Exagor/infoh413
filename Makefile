@@ -15,5 +15,10 @@ lop: $(OBJECTS) $(OBJECTS2)
 test: lop
 	./lop2 -i instances/N-be75eec_150 --meme
 
+debug: $(OBJECTS) $(OBJECTS2)
+	$(CC) $(CFLAGS) $(OBJECTS) -o lop -g
+	$(CC) $(CFLAGS) $(OBJECTS2) -o lop2 -g
+	gdb lop2 -i instances/N-be75eec_150 --meme
+
 clean:
 	rm -f src/*~ src/*.o lop lop2
