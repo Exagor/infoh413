@@ -30,9 +30,6 @@
 #include "optimization.h"
 
 char *FileName = NULL;
-int improvFlag = 0; // 0 for first, 1 for best
-int permutFlag = 0; // 0 for exchange, 1 for transpose, 2 for insert
-int initFlag = 0; // 0 for random, 1 for CW
 int algoFlag = 0; // 0 for memetic, 1 for ILS
 int nbGeneration = 0;
 int MAXTIME = 300; // Max 250s normally, but for test 60s
@@ -46,31 +43,12 @@ void readOpts(int argc, char **argv) {
     if (strcmp(argv[i], "-i") == 0) {
       FileName = argv[i+1];
       i++; // Skip the next argument
-    } else if (strcmp(argv[i], "--best") == 0) {
-      improvFlag = 1;
-      printf("Iterative improvement : Best selected\n");
-    } else if (strcmp(argv[i], "--first") == 0) {
-      improvFlag = 0;
-      printf("Iterative improvement : First selected\n");
     } else if (strcmp(argv[i], "--meme") == 0) {
       algoFlag = 0;
-      improvFlag = 0;
-      initFlag = 0;
       printf("Memetic Algorithm selected\n");
     } else if (strcmp(argv[i], "--sa") == 0) {
       algoFlag = 1;
-      improvFlag = 0;
-      initFlag = 0;
       printf("Simulated annealing selected\n");
-    } else if (strcmp(argv[i], "--exchange") == 0) {
-      permutFlag = 0;
-      printf("Permutation mode : Exchange selected\n");
-    } else if (strcmp(argv[i], "--transpose") == 0) {
-      permutFlag = 1;
-      printf("Permutation mode : Transpose selected\n");
-    } else if (strcmp(argv[i], "--insert") == 0) {
-      permutFlag = 2;
-      printf("Permutation mode : Insert selected\n");
     } else {
       fprintf(stderr, "Option %s not managed.\n", argv[i]);
     }
@@ -176,7 +154,7 @@ int main (int argc, char **argv)
 
       //Update best solution
       cost = selectBest(pop, costPop, POPULATION, currentSolution);
-      printf("Best cost %d at generation %d\n", cost, nbGeneration);
+      printf("Generation %d : max cost %d\n", nbGeneration, cost);
       nbGeneration++;
     }
 

@@ -519,14 +519,13 @@ void selectBestPop(long int** pop, int* costPop, int popSize, long int** offspri
     newPop[i] = (long int*) malloc(PSize * sizeof(long int));
   }
 
+  int* newCostPop = (int*) malloc(popSize * sizeof(int));
+
   // Sort the costPop array in descending order
   for (int i = 0; i < popSize; i++) {
     int minIndex = i;
     for (int j = i + 1; j < popSize; j++) {
-      if (costPop[j] > costPop[minIndex]) {
-        minIndex = j;
-      }
-    }
+      if (costPop[j] > costPop[minIndex]) {minIndex = j;}}
     // Swap the current element with the minimum element
     int tempCost = costPop[i];
     costPop[i] = costPop[minIndex];
@@ -541,9 +540,7 @@ void selectBestPop(long int** pop, int* costPop, int popSize, long int** offspri
   for (int i = 0; i < (nbCrossover+nbMutation); i++) {
     int minIndex = i;
     for (int j = i + 1; j < nbCrossover+nbMutation; j++) {
-      if (costOff[j] > costOff[minIndex]) {
-        minIndex = j;
-      }
+      if (costOff[j] > costOff[minIndex]){minIndex = j;}
     }
     // Swap the current element with the minimum element
     int tempCost = costOff[i];
@@ -560,6 +557,7 @@ void selectBestPop(long int** pop, int* costPop, int popSize, long int** offspri
     for (int j = 0; j < PSize; j++){
       newPop[i][j] = pop[i][j];
     }
+    newCostPop[i] = costPop[i];
   }
   int j = 0;
   int g = 0;
@@ -567,33 +565,36 @@ void selectBestPop(long int** pop, int* costPop, int popSize, long int** offspri
     if (costPop[popSize - (nbCrossover+nbMutation) + g] < costOff[j]){
       for(int k = 0; k < PSize; k++){
         newPop[popSize - (nbCrossover+nbMutation) + i][k] = offsprings[j][k]; //Add offspring
-        // costPop[popSize - (nbCrossover+nbMutation) + i] = costOff[j]; //Add cost
       }
+      newCostPop[popSize - (nbCrossover+nbMutation) + i] = costOff[j]; //Add cost
       j++;
     }
     else{
       for(int k = 0; k < PSize; k++){
         newPop[popSize - (nbCrossover+nbMutation) + i][k] = pop[popSize - (nbCrossover+nbMutation) + g][k];//Add pop
-        // costPop[popSize - (nbCrossover+nbMutation) + i] = costPop[popSize - (nbCrossover+nbMutation) + g]; //Add cost
       }
+      newCostPop[popSize - (nbCrossover+nbMutation) + i] = costPop[popSize - (nbCrossover+nbMutation) + g]; //Add cost
       g++;
     }
   }
+
   // Copy newPop back to pop array
   for (int i = 0; i < popSize; i++) {
     for (int j = 0; j < PSize; j++){
       pop[i][j] = newPop[i][j];
     }
   }
-  // Update costPop array with the costs of the new individuals
+  // Copy the new cost into costPop
   for (int i = 0; i < popSize; i++) {
-    costPop[i] = localSearch(pop[i]);
+    costPop[i] = newCostPop[i];
   }
+  
   //free
   for(int i = 0; i < popSize; i++) {
     free(newPop[i]);
   }
   free(newPop);
+  free(newCostPop);
 }
 
 int selectBest(long int** pop, int* costPop, int popNb, long int* currentSolution){
