@@ -31,11 +31,14 @@
 
 char *FileName = NULL;
 int algoFlag = 0; // 0 for memetic, 1 for ILS
+int MAXTIME = 250; // Max 250s normally, but for test 60s
 int nbGeneration = 0;
-int MAXTIME = 100; // Max 250s normally, but for test 60s
-int POPULATION = 25;
-int nbCrossover = 12; //Number of offsprings
+//For memetic algo
+int POPULATION = 30;
+int nbCrossover = 15; //Number of offsprings
 int nbMutation = 5; //Number of individuals to mutate nbMutation < POPULATION
+//For ILS algo
+int nbDiversification = 5; //Number of diversification steps
 
 void readOpts(int argc, char **argv) {
   /* Function that reads the options from the command line */
@@ -48,7 +51,7 @@ void readOpts(int argc, char **argv) {
       printf("Memetic Algorithm selected\n");
     } else if (strcmp(argv[i], "--ils") == 0) {
       algoFlag = 1;
-      printf("Simulated annealing selected\n");
+      printf("Iterated Local Search selected\n");
     } else {
       fprintf(stderr, "Option %s not managed.\n", argv[i]);
     }
@@ -103,9 +106,9 @@ int main (int argc, char **argv)
 
   printf("Computing ... \n");
 
-  currentSolution = (long int *)malloc(PSize * sizeof(long int)); //Initialize current sol
+  currentSolution = (long int *)malloc(PSize * sizeof(long int)); //Allocate memory
 
-  if (algoFlag==0){//memetic mode
+  if (algoFlag==0){//memetic algo mode
 
     //allocate memory for 2D array stocking population
     long int **pop = (long int **)malloc(POPULATION * sizeof(long int *));
@@ -131,8 +134,8 @@ int main (int argc, char **argv)
     }
 
     //Allocate memory for run-time stats
-    long int *stats = (long int *)malloc(MAXTIME * 2 * sizeof(long int));
-    double* timeStats = (double *)malloc(MAXTIME * 2 * sizeof(double));
+    // long int *stats = (long int *)malloc(MAXTIME * sizeof(long int));
+    // double* timeStats = (double *)malloc(MAXTIME * sizeof(double));
     
     // Generate initial population
     generateInitPop(pop,costPop, POPULATION);
@@ -160,12 +163,12 @@ int main (int argc, char **argv)
       printf("Generation %d : max cost %d\n", nbGeneration, cost);
 
       //Update stats (To comment in real use)
-      stats[nbGeneration] = cost;
-      timeStats[nbGeneration] = elapsed_time(VIRTUAL);
+      // stats[nbGeneration] = cost;
+      // timeStats[nbGeneration] = elapsed_time(VIRTUAL);
       nbGeneration++;
     }
 
-    statForPlot(FileName, stats, timeStats, nbGeneration); //To comment in real use
+    // statForPlot(FileName, stats, timeStats, nbGeneration); //To comment in real use
     //free
     for(int i = 0; i < POPULATION; i++) {
       free(pop[i]);
@@ -177,8 +180,19 @@ int main (int argc, char **argv)
     }
     free(offsprings);
     free(costOff);
-    free(stats);
-    free(timeStats);
+    // free(stats);
+    // free(timeStats);
+  }
+  if (algoFlag==1){ //ILS algo mode
+
+    //Generate initial solution
+    createRandomSolution(currentSolution);
+    cost = localSearch(currentSolution);
+    printf("Initial solution generated\n");
+
+    while(elapsed_time(VIRTUAL) < MAXTIME){
+    }
+
   }
   
   /* There are some more efficient way to do this, instead of recomputing everything... */

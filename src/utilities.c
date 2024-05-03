@@ -171,7 +171,7 @@ void statsToFile(char* FileName, int improvFlag, int permutFlag, int initFlag, i
   }
   //save the file
   fprintf(file,"%s,%ld,%s,%s,%s,%lf,%d,%i\n",exactFileName ,PSize, improvStr, permutStr, initStr, timeTaken, cost, iterations);
-  printf("Successfully written to file\n");
+  printf("Results successfully written to file\n");
   fclose(file);
 }
 
@@ -193,10 +193,10 @@ void statsToFile2(char* FileName, int algoFlag, double timeTaken, int cost, int 
   }
 
   //Format the file
-  const char *algoStr = (algoFlag == 0) ? "memetic" : "SA";
+  const char *algoStr = (algoFlag == 0) ? "memetic" : "ILS";
   //save the file
   fprintf(file,"%s,%ld,%s,%lf,%d,%i\n",exactFileName ,PSize, algoStr, timeTaken, cost, iterations);
-  printf("Successfully written to file\n");
+  printf("Results successfully written to file\n");
   fclose(file);
 }
 
@@ -219,4 +219,6 @@ void statForPlot(char* Filename, long int* statCost, double* timeStats, int nbGe
   }
   fprintf(file,"Generation,Time,Cost\n");
   for(int i = 0; i < nbGeneration;i++){fprintf(file,"%d,%f,%ld\n",i,timeStats[i],statCost[i]);}
+  printf("Run-time statistics successfully written to file\n");
+  fclose(file);
 }

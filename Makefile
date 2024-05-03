@@ -13,7 +13,7 @@ lop: $(OBJECTS) $(OBJECTS2)
 	$(CC) $(CFLAGS) $(OBJECTS2) -o lop2
 
 test: lop
-	./lop2 -i instances/N-be75eec_150 --meme
+	./lop2 -i instances/N-be75eec_150 --ils
 
 debug: $(OBJECTS) $(OBJECTS2)
 	$(CC) $(CFLAGS) $(OBJECTS) -o lop -g
