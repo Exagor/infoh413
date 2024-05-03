@@ -200,6 +200,23 @@ void statsToFile2(char* FileName, int algoFlag, double timeTaken, int cost, int 
   fclose(file);
 }
 
-void statForPlot(char* Filename){
+void statForPlot(char* Filename, long int* statCost, double* timeStats, int nbGeneration){
+  FILE *file;
+  char filepath[256];
 
+  const char* exactFileName = strrchr(Filename, '/');
+  if (exactFileName != NULL) {
+    exactFileName++; // Move past the '/'
+  } else {
+    exactFileName = Filename; // No '/' found, use the whole FileName
+  }
+
+  sprintf(filepath, "raw_results/runtimes/runtime_%s.csv", exactFileName);
+  file = fopen(filepath, "a");
+  if (file == NULL) {
+    fprintf(stderr, "Error opening file\n");
+    return;
+  }
+  fprintf(file,"Generation,Time,Cost\n");
+  for(int i = 0; i < nbGeneration;i++){fprintf(file,"%d,%f,%ld\n",i,timeStats[i],statCost[i]);}
 }

@@ -32,7 +32,7 @@
 char *FileName = NULL;
 int algoFlag = 0; // 0 for memetic, 1 for ILS
 int nbGeneration = 0;
-int MAXTIME = 300; // Max 250s normally, but for test 60s
+int MAXTIME = 100; // Max 250s normally, but for test 60s
 int POPULATION = 25;
 int nbCrossover = 12; //Number of offsprings
 int nbMutation = 5; //Number of individuals to mutate nbMutation < POPULATION
@@ -46,7 +46,7 @@ void readOpts(int argc, char **argv) {
     } else if (strcmp(argv[i], "--meme") == 0) {
       algoFlag = 0;
       printf("Memetic Algorithm selected\n");
-    } else if (strcmp(argv[i], "--sa") == 0) {
+    } else if (strcmp(argv[i], "--ils") == 0) {
       algoFlag = 1;
       printf("Simulated annealing selected\n");
     } else {
@@ -129,6 +129,10 @@ int main (int argc, char **argv)
     for (int i = 0; i < (nbCrossover+nbMutation); i++){
       costOff[i] = 0;
     }
+
+    //Allocate memory for run-time stats
+    long int *stats = (long int *)malloc(MAXTIME * 2 * sizeof(long int));
+    double* timeStats = (double *)malloc(MAXTIME * 2 * sizeof(double));
     
     // Generate initial population
     generateInitPop(pop,costPop, POPULATION);
@@ -136,7 +140,6 @@ int main (int argc, char **argv)
 
     //Repeat until timer is up
     while(elapsed_time(VIRTUAL) < MAXTIME){
-      printf("Generation %d\n", nbGeneration);
       //Crossover
       for (int i = 0; i < nbCrossover; i++){
         crossover(pop, POPULATION, offsprings[i]); //Gives offspring
@@ -155,9 +158,14 @@ int main (int argc, char **argv)
       //Update best solution
       cost = selectBest(pop, costPop, POPULATION, currentSolution);
       printf("Generation %d : max cost %d\n", nbGeneration, cost);
+
+      //Update stats (To comment in real use)
+      stats[nbGeneration] = cost;
+      timeStats[nbGeneration] = elapsed_time(VIRTUAL);
       nbGeneration++;
     }
 
+    statForPlot(FileName, stats, timeStats, nbGeneration); //To comment in real use
     //free
     for(int i = 0; i < POPULATION; i++) {
       free(pop[i]);
@@ -169,6 +177,8 @@ int main (int argc, char **argv)
     }
     free(offsprings);
     free(costOff);
+    free(stats);
+    free(timeStats);
   }
   
   /* There are some more efficient way to do this, instead of recomputing everything... */
