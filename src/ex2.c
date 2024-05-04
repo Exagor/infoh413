@@ -38,7 +38,7 @@ int POPULATION = 30;
 int nbCrossover = 15; //Number of offsprings
 int nbMutation = 5; //Number of individuals to mutate nbMutation < POPULATION
 //For ILS algo
-int nbPerturbation = 10; //Number of perturbation
+int nbPerturbation = 8; //Number of perturbation
 double epsilon = 0.0001f; //Acceptance criterion
 
 void readOpts(int argc, char **argv) {
@@ -161,7 +161,7 @@ int main (int argc, char **argv)
 
       //Update best solution
       cost = selectBest(pop, costPop, POPULATION, currentSolution);
-      printf("Generation %d : max cost %d\n", nbGeneration, cost);
+      printf("Generation %d : best cost %d\n", nbGeneration, cost);
 
       //Update stats (To comment in real use)
       // stats[nbGeneration] = cost;
