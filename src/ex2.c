@@ -33,6 +33,7 @@ char *FileName = NULL;
 int algoFlag = 0; // 0 for memetic, 1 for ILS
 int MAXTIME = 250; // Max 250s, but for test 60s
 int nbGeneration = 0;
+int RUNTIME = 0;
 //For memetic algo
 int POPULATION = 30;
 int nbCrossover = 15; //Number of offsprings
@@ -53,6 +54,9 @@ void readOpts(int argc, char **argv) {
     } else if (strcmp(argv[i], "--ils") == 0) {
       algoFlag = 1;
       printf("Iterated Local Search selected\n");
+    } else if (strcmp(argv[i], "--runtime") == 0) {
+      RUNTIME = 1;
+      printf("Runtime recording selected\n");
     } else {
       fprintf(stderr, "Option %s not managed.\n", argv[i]);
     }
@@ -108,6 +112,9 @@ int main (int argc, char **argv)
   printf("Computing ... \n");
 
   currentSolution = (long int *)malloc(PSize * sizeof(long int)); //Allocate memory
+  //Allocate memory for run-time stats
+  long int *stats = (long int *)malloc(MAXTIME * sizeof(long int));
+  double* timeStats = (double *)malloc(MAXTIME * sizeof(double));
 
   if (algoFlag==0){//memetic algo mode
 
@@ -134,10 +141,6 @@ int main (int argc, char **argv)
       costOff[i] = 0;
     }
 
-    //Allocate memory for run-time stats
-    // long int *stats = (long int *)malloc(MAXTIME * sizeof(long int));
-    // double* timeStats = (double *)malloc(MAXTIME * sizeof(double));
-    
     // Generate initial population
     generateInitPop(pop,costPop, POPULATION);
     printf("Initial population generated\n");
@@ -164,12 +167,13 @@ int main (int argc, char **argv)
       printf("Generation %d : best cost %d\n", nbGeneration, cost);
 
       //Update stats (To comment in real use)
-      // stats[nbGeneration] = cost;
-      // timeStats[nbGeneration] = elapsed_time(VIRTUAL);
+      if (RUNTIME){
+        stats[nbGeneration] = cost;
+        timeStats[nbGeneration] = elapsed_time(VIRTUAL);
+      }
+
       nbGeneration++;
     }
-
-    // statForPlot(FileName, stats, timeStats, nbGeneration); //To comment in real use
 
     //free
     for(int i = 0; i < POPULATION; i++) {
@@ -182,8 +186,6 @@ int main (int argc, char **argv)
     }
     free(offsprings);
     free(costOff);
-    // free(stats);
-    // free(timeStats);
   }
 
   if (algoFlag==1){ //ILS algo mode
@@ -220,9 +222,11 @@ int main (int argc, char **argv)
 
   /* Save the results in a file*/
   statsToFile2(FileName, algoFlag, timeTaken, cost, nbGeneration);
-
+  if(RUNTIME){statForPlot(FileName,algoFlag, stats, timeStats, nbGeneration);}
   /* Free memory */
   free(currentSolution);
+  free(stats);
+  free(timeStats);
 
   return 0;
 }

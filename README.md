@@ -1,11 +1,11 @@
 # Heuristic Optimization assignment
 
-April 2024\
+May 2024\
 by Alexandre Achten 000494484
 
-## How to use:
+## How to use
 
-To compile the program, run the following command:
+To compile the programs (lop and lop2), run the following command:
 
 ```shell
 make
@@ -23,7 +23,13 @@ make clean
 ./lop -i instances/N-tiw56r72_250
 ```
 
-### Parameters
+or
+
+```shell
+./lop2 -i instances/N-tiw56r72_250
+```
+
+### Iterated improvement
 
 You can run an instance choosing the parameters :
 
@@ -43,6 +49,7 @@ The order of the parameters does not matter.
 ### VND
 
 On top of that, you can choose VND algorithms instead of simple permutation with the following parameters :
+
 - VND : --vnd1, --vnd2
 
 Where VND1 : transpose -> exchange -> insert
@@ -57,9 +64,39 @@ The default for VND is --first, --cw
     ./lop -i instances/N-tiw56r72_250 --vnd1
 ```
 
+### Stochastic local search
+
+To run the memetic algorithm or the iterated local search, the lop2 program must be used.
+The parameters to enter are :
+
+- Memetic algorithm (MA) : --meme
+- Iterated local search (ILS) : --ils
+
+### Example 3
+
+```shell
+    ./lop2 -i instances/N-tiw56r72_250 --meme
+```
+
+or
+
+```shell
+    ./lop2 -i instances/N-tiw56r72_250 --ils
+```
+
+### Runtime save
+
+To save the runtime of the program, add the --runtime parameter. The runtime will be savec in the "raw_results/runtimes" folder. It works only on the lop2 program.
+
+### Example 4
+
+```shell
+    ./lop2 -i instances/N-tiw56r72_250 --meme --runtime
+```
+
 ## Results
 
-The results are stored in the .csv file named "raw_results/results.csv".
+The results are stored in the .csv file named "raw_results/results.csv" or "raw_results/results2.csv" depending on the program used (lop, lop2).
 
 To calculate the relative deviation, just run the R script called "statistics/rel_dev.r" from the root directory.
 
@@ -67,5 +104,6 @@ To calculate the relative deviation, just run the R script called "statistics/re
     Rscript statistics/rel_dev.r
 ```
 
-### Best known solutions:
+### Best known solutions
+
 The best known solutions are in best_known/best_known.txt

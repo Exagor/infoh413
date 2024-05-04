@@ -200,7 +200,7 @@ void statsToFile2(char* FileName, int algoFlag, double timeTaken, int cost, int 
   fclose(file);
 }
 
-void statForPlot(char* Filename, long int* statCost, double* timeStats, int nbGeneration){
+void statForPlot(char* Filename, int algoFlag, long int* statCost, double* timeStats, int nbGeneration){
   FILE *file;
   char filepath[256];
 
@@ -210,13 +210,15 @@ void statForPlot(char* Filename, long int* statCost, double* timeStats, int nbGe
   } else {
     exactFileName = Filename; // No '/' found, use the whole FileName
   }
-
-  sprintf(filepath, "raw_results/runtimes/runtime_%s.csv", exactFileName);
-  file = fopen(filepath, "a");
+  
+  const char *algoStr = (algoFlag == 0) ? "memetic" : "ILS";
+  sprintf(filepath, "raw_results/runtimes/runtime_%s_%s.csv", algoStr,exactFileName);
+  file = fopen(filepath, "w");
   if (file == NULL) {
     fprintf(stderr, "Error opening file\n");
     return;
   }
+
   fprintf(file,"Generation,Time,Cost\n");
   for(int i = 0; i < nbGeneration;i++){fprintf(file,"%d,%f,%ld\n",i,timeStats[i],statCost[i]);}
   printf("Run-time statistics successfully written to file\n");
