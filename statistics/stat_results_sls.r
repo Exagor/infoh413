@@ -1,6 +1,6 @@
 #Script to make general statistics about raw data
-results <- read.csv("raw_results/results_meme.csv", header = TRUE)
-algo <- "memetic"
+results <- read.csv("raw_results/results_ils.csv", header = TRUE)
+algo <- "ILS"
 
 #Create new table
 stat_results <- data.frame(
@@ -32,6 +32,6 @@ stat_results <- stat_results[, column_order]
 #Save the table
 write.csv(
     stat_results, 
-    file = "stat_results/stat_results_meme.csv", 
+    file = "stat_results/stat_results_ils.csv", 
     row.names = FALSE
 )
