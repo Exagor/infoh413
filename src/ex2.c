@@ -31,14 +31,15 @@
 
 char *FileName = NULL;
 int algoFlag = 0; // 0 for memetic, 1 for ILS
-int MAXTIME = 250; // Max 250s normally, but for test 60s
+int MAXTIME = 250; // Max 250s, but for test 60s
 int nbGeneration = 0;
 //For memetic algo
 int POPULATION = 30;
 int nbCrossover = 15; //Number of offsprings
 int nbMutation = 5; //Number of individuals to mutate nbMutation < POPULATION
 //For ILS algo
-int nbDiversification = 5; //Number of diversification steps
+int nbPerturbation = 10; //Number of perturbation
+double epsilon = 0.0001f; //Acceptance criterion
 
 void readOpts(int argc, char **argv) {
   /* Function that reads the options from the command line */
@@ -169,6 +170,7 @@ int main (int argc, char **argv)
     }
 
     // statForPlot(FileName, stats, timeStats, nbGeneration); //To comment in real use
+
     //free
     for(int i = 0; i < POPULATION; i++) {
       free(pop[i]);
@@ -183,7 +185,10 @@ int main (int argc, char **argv)
     // free(stats);
     // free(timeStats);
   }
+
   if (algoFlag==1){ //ILS algo mode
+    long int* newSolution = (long int *)malloc(PSize * sizeof(long int));
+    int newCost;
 
     //Generate initial solution
     createRandomSolution(currentSolution);
@@ -191,11 +196,22 @@ int main (int argc, char **argv)
     printf("Initial solution generated\n");
 
     while(elapsed_time(VIRTUAL) < MAXTIME){
+      //Perturbation
+      perturbation(currentSolution, newSolution, nbPerturbation);
+
+      newCost = localSearch(newSolution);
+
+      //Acceptance criterion
+      if(acceptanceCriterion(cost,newCost,currentSolution,newSolution, epsilon)){
+        cost = newCost;
+      }
+
+      nbGeneration++;
     }
 
+    free(newSolution);
   }
   
-  /* There are some more efficient way to do this, instead of recomputing everything... */
   printf("Cost of the solution after applying the algo: %d\n", cost);
 
   printf("Number of generations : %d\n", nbGeneration);

@@ -37,5 +37,7 @@ void crossover(long int **pop, int popNb, long int *offspring);
 void mutation(long int ** pop, int popSize, long int* offspring);
 void selectBestPop(long int** pop, int* costPop, int popSize, long int** offsprings, int* costOff, int nbCrossover, int nbMutation);
 int selectBest(long int** pop, int* costPop, int popNb, long int* currentSolution);
+void perturbation(long int* currentSolution, long int* newSolution,int nbPerturbation);
+int acceptanceCriterion(int cost, int newCost, long int* currentSolution, long int* newSolution, double epsilon);
 
 #endif

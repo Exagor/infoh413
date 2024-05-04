@@ -613,3 +613,27 @@ int selectBest(long int** pop, int* costPop, int popNb, long int* currentSolutio
     }
     return maxCost;
 }
+
+void perturbation(long int* currentSolution, long int* newSolution,int nbPerturbation){
+  //Perturbation operator
+  for (int i = 0; i < PSize; i++){
+    newSolution[i] = currentSolution[i];
+  }
+  for (int i = 0; i < nbPerturbation; i++){
+    int a = randInt(0, PSize-1);
+    int b = randInt(0, PSize-1);
+    exchange(newSolution, a, b);
+  }
+}
+
+int acceptanceCriterion(int cost, int newCost, long int* currentSolution, long int* newSolution, double epsilon){
+  //Acceptance criterion
+  int res=0;
+  if (newCost > ((double)1-epsilon)*cost){
+    for (int i = 0; i < PSize; i++){
+      currentSolution[i] = newSolution[i];
+    }
+    res = 1;
+  }
+  return res;
+}
