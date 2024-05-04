@@ -113,8 +113,8 @@ int main (int argc, char **argv)
 
   currentSolution = (long int *)malloc(PSize * sizeof(long int)); //Allocate memory
   //Allocate memory for run-time stats
-  long int *stats = (long int *)malloc(MAXTIME * sizeof(long int));
-  double* timeStats = (double *)malloc(MAXTIME * sizeof(double));
+  long int *stats = (long int *)malloc(MAXTIME * 4 * sizeof(long int));
+  double* timeStats = (double *)malloc(MAXTIME * 4 * sizeof(double));
 
   if (algoFlag==0){//memetic algo mode
 
@@ -166,7 +166,7 @@ int main (int argc, char **argv)
       cost = selectBest(pop, costPop, POPULATION, currentSolution);
       printf("Generation %d : best cost %d\n", nbGeneration, cost);
 
-      //Update stats (To comment in real use)
+      //Update stats
       if (RUNTIME){
         stats[nbGeneration] = cost;
         timeStats[nbGeneration] = elapsed_time(VIRTUAL);
@@ -200,12 +200,18 @@ int main (int argc, char **argv)
     while(elapsed_time(VIRTUAL) < MAXTIME){
       //Perturbation
       perturbation(currentSolution, newSolution, nbPerturbation);
-
       newCost = localSearch(newSolution);
 
       //Acceptance criterion
       if(acceptanceCriterion(cost,newCost,currentSolution,newSolution, epsilon)){
         cost = newCost;
+      }
+      printf("Iteration %d : cost %d\n", nbGeneration, cost);
+
+      //Update stats (To comment in real use)
+      if (RUNTIME){
+        stats[nbGeneration] = cost;
+        timeStats[nbGeneration] = elapsed_time(VIRTUAL);
       }
 
       nbGeneration++;
@@ -222,7 +228,7 @@ int main (int argc, char **argv)
 
   /* Save the results in a file*/
   statsToFile2(FileName, algoFlag, timeTaken, cost, nbGeneration);
-  if(RUNTIME){statForPlot(FileName,algoFlag, stats, timeStats, nbGeneration);}
+  if(RUNTIME){statForPlot(FileName, algoFlag, stats, timeStats, nbGeneration);}
   /* Free memory */
   free(currentSolution);
   free(stats);

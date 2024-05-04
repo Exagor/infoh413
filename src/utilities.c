@@ -211,7 +211,7 @@ void statForPlot(char* Filename, int algoFlag, long int* statCost, double* timeS
     exactFileName = Filename; // No '/' found, use the whole FileName
   }
   
-  const char *algoStr = (algoFlag == 0) ? "memetic" : "ILS";
+  const char *algoStr = (algoFlag == 0) ? "meme" : "ILS";
   sprintf(filepath, "raw_results/runtimes/runtime_%s_%s.csv", algoStr,exactFileName);
   file = fopen(filepath, "w");
   if (file == NULL) {

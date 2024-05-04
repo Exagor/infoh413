@@ -17,7 +17,7 @@ To clean the directory, run the following command:
 make clean
 ```
 
-### To run on one instance:
+### To run on one instance
 
 ```shell
 ./lop -i instances/N-tiw56r72_250
@@ -41,7 +41,7 @@ If no parameters are entered, the default is --first --exchange --random.
 The order of the parameters does not matter.
 
 ### Example
-    
+
 ```shell
     ./lop -i instances/N-tiw56r72_250 --best --exchange --cw
 ```
