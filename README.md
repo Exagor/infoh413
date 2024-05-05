@@ -29,7 +29,7 @@ or
 ./lop2 -i instances/N-tiw56r72_250
 ```
 
-### Iterated improvement
+### Iterated improvement (lop)
 
 You can run an instance choosing the parameters :
 
@@ -46,7 +46,7 @@ The order of the parameters does not matter.
     ./lop -i instances/N-tiw56r72_250 --best --exchange --cw
 ```
 
-### VND
+### VND (lop)
 
 On top of that, you can choose VND algorithms instead of simple permutation with the following parameters :
 
@@ -64,7 +64,7 @@ The default for VND is --first, --cw
     ./lop -i instances/N-tiw56r72_250 --vnd1
 ```
 
-### Stochastic local search
+### Stochastic local search (lop2)
 
 To run the memetic algorithm or the iterated local search, the lop2 program must be used.
 The parameters to enter are :
@@ -84,9 +84,9 @@ or
     ./lop2 -i instances/N-tiw56r72_250 --ils
 ```
 
-### Runtime save
+### Runtime results
 
-To save the runtime of the program, add the --runtime parameter. The runtime will be savec in the "raw_results/runtimes" folder. It works only on the lop2 program.
+To save the runtime results of the program, add the --runtime parameter. The runtime will be saved in the "raw_results/runtimes" folder. It works only on the lop2 program.
 
 ### Example 4
 
