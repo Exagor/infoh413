@@ -6,7 +6,7 @@ model <- lm(data2$relative_deviation ~ data1$relative_deviation)
 se <- sqrt(sum(resid(model)^2) / model$df.residual) # Standard error of the regression
 
 # Start the PNG device.
-png(filename = "figures/corr_plot_meme_ils.png")
+png(filename = "figures/corr_plot_meme_ils.png", width = 800, height = 800)
 plot(data1$relative_deviation, data2$relative_deviation,
     xlab = "MA relative deviation (%)",
     ylab = "ILS relative deviation (%)",
@@ -15,8 +15,8 @@ plot(data1$relative_deviation, data2$relative_deviation,
     pch = 1,
     col = "blue",
     panel.first = grid(nx = 4, ny = 4, lty = 2))
-legend("topright", legend = c("Linear regression", "Standard error"),
-       col = c("red", "#fbab00"), lty = 1:2, cex = 0.8)
+legend("topleft", legend = c("Linear regression", "Standard error"),
+       col = c("red", "#fbab00"), lty = 1:2, cex = 1.2)
 
 
 # Print the parameters of the linear model

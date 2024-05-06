@@ -31,7 +31,7 @@
 
 char *FileName = NULL;
 int algoFlag = 0; // 0 for memetic, 1 for ILS
-int MAXTIME = 250; // Max 250s, but for test 60s
+int MAXTIME = 100; // Max 250s, but for test 60s
 int nbGeneration = 0;
 int RUNTIME = 0;
 //For memetic algo
