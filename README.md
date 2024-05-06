@@ -84,9 +84,9 @@ or
     ./lop2 -i instances/N-tiw56r72_250 --ils
 ```
 
-### Runtime results
+### During runtime results
 
-To save the runtime results of the program, add the --runtime parameter. The runtime will be saved in the "raw_results/runtimes" folder. It works only on the lop2 program.
+To save the in-runtime results of the program, add the --runtime parameter. The in-runtime statistics will be saved in the "raw_results/runtimes" folder. It works only on the lop2 program.
 
 ### Example 4
 
