@@ -10,13 +10,14 @@ png(filename = "figures/corr_plot_meme_ils.png", width = 800, height = 800)
 plot(data1$relative_deviation, data2$relative_deviation,
     xlab = "MA relative deviation (%)",
     ylab = "ILS relative deviation (%)",
+    cex.lab=1.3,
     xlim = c(0, 1),
     ylim = c(0, 1),
     pch = 1,
     col = "blue",
     panel.first = grid(nx = 4, ny = 4, lty = 2))
 legend("topleft", legend = c("Linear regression", "Standard error"),
-       col = c("red", "#fbab00"), lty = 1:2, cex = 1.2)
+       col = c("red", "#fbab00"), lty = 1:2, cex = 1.4)
 
 
 # Print the parameters of the linear model

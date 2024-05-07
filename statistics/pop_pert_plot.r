@@ -16,6 +16,7 @@ avg50 <- mean(data50$relative_deviation)
 plot(c(10, 20, 30, 50),c(avg10, avg20, avg30, avg50), type = "b", col = "blue",
     xlab = "Population size",
     ylab = "Average relative deviation",
+    cex.lab=1.3,
     main = "")
 
 invisible(dev.off()) #close png
@@ -33,6 +34,7 @@ avg20 <- mean(data20$relative_deviation)
 plot(c(1, 8, 20),c(avg1, avg8, avg20), type = "b", col = "blue",
     xlab = "Perturbation number",
     ylab = "Average relative deviation",
+    cex.lab=1.3,
     main = "")
 
 invisible(dev.off()) #close png

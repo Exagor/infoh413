@@ -14,10 +14,11 @@ png(filename = "figures/runtime_plot.png", width = 800, height = 800)
 plot(data1$Time, data1$relative_deviation, type = "l", col = "#00ff5e", 
     xlab = "run-time [CPU sec]",
     ylab = "Relative deviation (%)",
+    cex.lab=1.3,
     ylim = c(0, 1.5),
     main = "",
     first.panel=grid(lty=2))
-legend("topright", legend=c("ILS","MA"), lty=1, col=c("#00ff5e","#ff0000"), bty="n",inset = c(0, 0.05),cex=1.2)
+legend("topright", legend=c("ILS","MA"), lty=1, col=c("#00ff5e","#ff0000"), bty="n",inset = c(0, 0.05),cex=1.4)
 
 # Add the Cost vs Time for data2 to the existing plot
 lines(data2$Time, data2$relative_deviation, col = "#ff0000")
